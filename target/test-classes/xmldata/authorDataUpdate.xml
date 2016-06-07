@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <AUTHORS author_id="1" author_name="John Smith" />
+    <AUTHORS author_id="2" author_name="Eillin O'Connor" />
+    <AUTHORS author_id="3" author_name="Random guy"/>
+</dataset>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="by.epam.news" />
+
+    <context:property-placeholder location="classpath:test-db.properties"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+        <property name="url" value="${url}" />
+        <property name="username" value="${login}" />
+        <property name="password" value="${password}" />
+        <property name="maxTotal" value="${maxActive}"/>
+    </bean>
+
+    <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
+        <property name="datatypeFactory">
+            <bean class="org.dbunit.ext.oracle.OracleDataTypeFactory" />
+        </property>
+        <property name="caseSensitiveTableNames" value="false"/>
+    </bean>
+
+    <bean id="dbUnitDatabaseConnection"
+          class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="databaseConfig" ref="dbUnitDatabaseConfig" />
+        <property name="schema" value="TEST" />
+    </bean>
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="tagDaoImplTest" class="by.epam.news.dao.impl.TagDaoImplTest"/>
+
+    <bean id="tagDao" class="by.epam.news.dao.impl.TagDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="commentDao" class="by.epam.news.dao.impl.CommentDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="authorDao" class="by.epam.news.dao.impl.AuthorDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="newsDao" class="by.epam.news.dao.impl.NewsDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+</beans>
