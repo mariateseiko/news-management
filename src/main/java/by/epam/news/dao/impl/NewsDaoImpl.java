@@ -26,13 +26,13 @@ public class NewsDaoImpl implements NewsDao {
             "WHERE author_id = ? " +
             "GROUP BY news.news_id, news.title, news.short_text, news.full_text, " +
             "news.creation_date, news.modification_date " +
-            "ORDER BY COUNT(comment_id)";
+            "ORDER BY COUNT(comment_id) DESC";
     private static final String SELECT_ALL_NEWS = "SELECT news.news_id, news.title, news.short_text, " +
             "news.creation_date, modification_date FROM news " +
             "LEFT JOIN comments ON news.news_id = comments.news_id " +
             "GROUP BY news.news_id, news.title, news.short_text, news.full_text, " +
             "news.creation_date, news.modification_date " +
-            "ORDER BY COUNT(comment_id)";
+            "ORDER BY COUNT(comment_id) DESC";
     private static final String SELECT_NEWS_BY_ID = "SELECT news_id, title, short_text, full_text, creation_date, " +
             "modification_date FROM news WHERE news_id=?";
     private static final String UPDATE_NEWS = "UPDATE news SET title=?, short_text=?, full_text=?, " +
