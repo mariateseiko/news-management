@@ -26,6 +26,10 @@ public class AuthorDaoImpl implements AuthorDao {
             "authors WHERE expired IS NULL";
     private static final String UPDATE_EXPIRED = "UPDATE authors SET expired=CURRENT_TIMESTAMP WHERE author_id=?";
 
+    private static final String AUTHOR_ID = "author_id";
+    private static final String AUTHOR_NAME = "author_name";
+    private static final String AUTHOR_EXPIRED = "expired";
+
     private DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
@@ -40,10 +44,7 @@ public class AuthorDaoImpl implements AuthorDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                author = new Author();
-                author.setId(resultSet.getLong("author_id"));
-                author.setName(resultSet.getString("author_name"));
-                author.setExpired(resultSet.getTimestamp("expired"));
+                author = extractAuthorFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DaoException("Request to database failed", e);
@@ -78,7 +79,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public Long insert(Author author) throws DaoException {
         Long generatedId = -1L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_AUTHOR, new String[]{"author_id"})) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_AUTHOR, new String[]{AUTHOR_ID})) {
             statement.setString(1, author.getName());
             statement.setTimestamp(2, author.getExpired());
             statement.executeUpdate();
@@ -104,10 +105,7 @@ public class AuthorDaoImpl implements AuthorDao {
             statement.setLong(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Author author = new Author();
-                author.setId(resultSet.getLong("author_id"));
-                author.setName(resultSet.getString("author_name"));
-                author.setExpired(resultSet.getTimestamp("expired"));
+                Author author = extractAuthorFromResultSet(resultSet);
                 authors.add(author);
             }
         } catch (SQLException e) {
@@ -127,10 +125,7 @@ public class AuthorDaoImpl implements AuthorDao {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_NOT_EXPIRED)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Author author = new Author();
-                author.setId(resultSet.getLong("author_id"));
-                author.setName(resultSet.getString("author_name"));
-                author.setExpired(resultSet.getTimestamp("expired"));
+                Author author = extractAuthorFromResultSet(resultSet);
                 authors.add(author);
             }
         } catch (SQLException e) {
@@ -158,5 +153,13 @@ public class AuthorDaoImpl implements AuthorDao {
             }
         }
         return countUpdatedRows > 0;
+    }
+
+    private Author extractAuthorFromResultSet(ResultSet resultSet) throws SQLException {
+        Author author = new Author();
+        author.setId(resultSet.getLong(AUTHOR_ID));
+        author.setName(resultSet.getString(AUTHOR_NAME));
+        author.setExpired(resultSet.getTimestamp(AUTHOR_EXPIRED));
+        return author;
     }
 }

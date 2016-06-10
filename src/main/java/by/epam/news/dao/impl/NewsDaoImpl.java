@@ -44,6 +44,13 @@ public class NewsDaoImpl implements NewsDao {
     private static final String LINK_AUTHOR_NEWS = "INSERT INTO news_authors (news_id, author_id) VALUES(?,?)";
     private static final String DELETE_NEWS = "DELETE FROM news WHERE news_id=?";
 
+
+    private static final String NEWS_ID = "news_id";
+    private static final String NEWS_TITLE = "title";
+    private static final String SHORT_TEXT = "short_text";
+    private static final String CREATION_DATE = "creation_date";
+    private static final String MODIFICATION_DATE = "modification_date";
+
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -120,7 +127,7 @@ public class NewsDaoImpl implements NewsDao {
     public Long insert(News news) throws DaoException {
         Long generatedId = -1L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_NEWS, new String[]{"news_id"})) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_NEWS, new String[]{NEWS_ID})) {
             statement.setString(1, news.getTitle());
             statement.setString(2, news.getShortText());
             statement.setString(3, news.getFullText());
@@ -241,11 +248,11 @@ public class NewsDaoImpl implements NewsDao {
 
     private News extractNewsMessageFromResultSet(ResultSet resultSet) throws SQLException {
         News news = new News();
-        news.setId(resultSet.getLong("news_id"));
-        news.setTitle(resultSet.getString("title"));
-        news.setShortText(resultSet.getString("short_text"));
-        news.setCreationDate(resultSet.getTimestamp("creation_date"));
-        news.setModificationDate(resultSet.getTimestamp("modification_date"));
+        news.setId(resultSet.getLong(NEWS_ID));
+        news.setTitle(resultSet.getString(NEWS_TITLE));
+        news.setShortText(resultSet.getString(SHORT_TEXT));
+        news.setCreationDate(resultSet.getTimestamp(CREATION_DATE));
+        news.setModificationDate(resultSet.getTimestamp(MODIFICATION_DATE));
         return news;
     }
 }

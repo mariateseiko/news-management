@@ -24,6 +24,8 @@ public class TagDaoImpl implements TagDao {
             "JOIN news_tags ON tags.tag_id = news_tags.tag_id " +
             "WHERE news_id = ?";
 
+    private static final String TAG_ID = "tag_id";
+    private static final String TAG_NAME = "tag_name";
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -37,9 +39,7 @@ public class TagDaoImpl implements TagDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                tag = new Tag();
-                tag.setId(resultSet.getLong("tag_id"));
-                tag.setName(resultSet.getString("tag_name"));
+                tag = extractTagFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DaoException("Request to database failed", e);
@@ -76,9 +76,7 @@ public class TagDaoImpl implements TagDao {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_TAGS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Tag tag = new Tag();
-                tag.setId(resultSet.getLong("tag_id"));
-                tag.setName(resultSet.getString("tag_name"));
+                Tag tag = extractTagFromResultSet(resultSet);
                 tags.add(tag);
             }
         } catch (SQLException e) {
@@ -99,9 +97,7 @@ public class TagDaoImpl implements TagDao {
             statement.setLong(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Tag tag = new Tag();
-                tag.setId(resultSet.getLong("tag_id"));
-                tag.setName(resultSet.getString("tag_name"));
+                Tag tag = extractTagFromResultSet(resultSet);
                 tags.add(tag);
             }
         } catch (SQLException e) {
@@ -117,7 +113,7 @@ public class TagDaoImpl implements TagDao {
     public Long insert(Tag tag) throws DaoException {
         Long generatedId = -1L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_TAG, new String[]{"tag_id"})) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_TAG, new String[]{TAG_ID})) {
             statement.setString(1, tag.getName());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -132,5 +128,12 @@ public class TagDaoImpl implements TagDao {
             }
         }
         return generatedId;
+    }
+
+    private Tag extractTagFromResultSet(ResultSet resultSet) throws SQLException {
+        Tag tag = new Tag();
+        tag.setId(resultSet.getLong(TAG_ID));
+        tag.setName(resultSet.getString(TAG_NAME));
+        return tag;
     }
 }

@@ -24,6 +24,11 @@ public class CommentDaoImpl implements CommentDao {
     private static final String DELETE_COMMENT = "DELETE FROM comments WHERE comment_id=?";
     private static final String DELETE_COMMENTS_BY_NEWS_ID = "DELETE FROM comments WHERE news_id=?";
 
+    private static final String NEWS_ID = "news_id";
+    private static final String COMMENT_ID = "comment_id";
+    private static final String COMMENT_TEXT = "comment_text";
+    private static final String CREATION_DATE = "creation_date";
+
     private DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
@@ -38,11 +43,7 @@ public class CommentDaoImpl implements CommentDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                comment = new Comment();
-                comment.setId(resultSet.getLong("comment_id"));
-                comment.setCommentText(resultSet.getString("comment_text"));
-                comment.setCreationDate(resultSet.getTimestamp("creation_date"));
-                comment.setNewsId(resultSet.getLong("news_id"));
+                comment = extractCommentFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DaoException("Request to database failed", e);
@@ -79,11 +80,7 @@ public class CommentDaoImpl implements CommentDao {
             statement.setLong(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Comment comment = new Comment();
-                comment.setId(resultSet.getLong("comment_id"));
-                comment.setCommentText(resultSet.getString("comment_text"));
-                comment.setCreationDate(resultSet.getTimestamp("creation_date"));
-                comment.setNewsId(resultSet.getLong("news_id"));
+                Comment comment = extractCommentFromResultSet(resultSet);
                 comments.add(comment);
             }
         } catch (SQLException e) {
@@ -96,7 +93,7 @@ public class CommentDaoImpl implements CommentDao {
     public Long insert(Comment comment) throws DaoException {
         Long generatedId = -1L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_COMMENT, new String[]{"comment_id"})) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_COMMENT, new String[]{COMMENT_ID})) {
             statement.setString(1, comment.getCommentText());
             statement.setLong(2, comment.getNewsId());
             statement.executeUpdate();
@@ -145,5 +142,14 @@ public class CommentDaoImpl implements CommentDao {
             }
         }
         return countDeletedRows > 0;
+    }
+
+    private Comment extractCommentFromResultSet(ResultSet resultSet) throws SQLException {
+        Comment comment = new Comment();
+        comment.setId(resultSet.getLong(COMMENT_ID));
+        comment.setCommentText(resultSet.getString(COMMENT_TEXT));
+        comment.setCreationDate(resultSet.getTimestamp(CREATION_DATE));
+        comment.setNewsId(resultSet.getLong(NEWS_ID));
+        return comment;
     }
 }
