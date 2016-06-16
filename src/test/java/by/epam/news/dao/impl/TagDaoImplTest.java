@@ -24,7 +24,7 @@ import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:testApplicationContext.xml"})
+@ContextConfiguration(locations = { "classpath*:testApplicationContext.xml" })
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
