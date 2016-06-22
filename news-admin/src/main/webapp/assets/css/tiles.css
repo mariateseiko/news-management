@@ -1,0 +1,41 @@
+body {
+    margin:0;
+    height:100%;
+}
+
+.page-tile {
+    min-height:100%;
+    position:relative;
+}
+
+.header-tile {
+    padding:15px;
+    text-align:center;
+}
+
+.content-tile {
+    padding: 10px 10px 35px;
+    overflow:hidden;
+}
+
+.menu-tile {
+    padding: 10px 0 0 10px;
+    width:20%;
+    float:left;
+}
+
+.body-tile {
+    margin:10px 10px 0 250px;
+}
+
+.footer-tile {
+    border-top: 2px solid #1f1f7a;
+    padding: 7px 0;
+    clear:both;
+    position:absolute;
+    bottom:0;
+    left:0;
+    text-align:center;
+    width:100%;
+    height:20px;
+}

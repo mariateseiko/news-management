@@ -1,0 +1,133 @@
+.title {
+    color: #1f1f7a;
+    float: left;
+}
+
+.lang-panel {
+    float: right;
+    position: relative;
+    top: 35px;
+}
+
+.header {
+    overflow: hidden;
+    padding-right: 15px;
+    border-bottom: 3px solid #1f1f7a;
+}
+
+.centered-form {
+    width: 250px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+}
+
+.form-element {
+    overflow: hidden;
+    margin-bottom: 3px;
+}
+
+.form-label {
+    margin-top: 3px;
+    float: left;
+}
+
+.form-element input {
+    float: right;
+    margin: 2px;
+}
+
+.submit-button {
+    float: right;
+    padding: 7px 15px;
+    margin-top: 5px;
+}
+.centered {
+    margin: 0 auto;
+}
+
+.dropdown {
+    width: 150px;
+    padding: 1px;
+}
+
+.filter {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.dropdown button {
+    height: 20px;
+}
+
+.news {
+    margin: 5px 15px;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.author {
+    margin-left: 10%;
+}
+
+.news-short {
+    margin-top: 10px;
+}
+
+.link {
+    color: blue;
+    margin-left: 15px;
+}
+
+.comments {
+    color: red;
+    margin-left: 10px;
+}
+
+.tags {
+    color: grey;
+}
+
+.news {
+    margin-bottom: 30px;
+}
+
+.comment {
+    width: 50%;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.comment-text {
+    background-color: darkgrey;
+    padding: 10px 10px;
+}
+
+.comment-delete-button {
+    float: right;
+    margin-top: -10px;
+    margin-right: -10px;
+}
+
+.input-comment {
+    resize: none;
+    width: 100%;
+}
+
+.comment-form {
+    margin-left: 15px;
+    width: 50%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
