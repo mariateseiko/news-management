@@ -13,6 +13,10 @@
     </definition>
     <definition name="newsMessage" extends="defaultTemplate">
         <put-attribute name="title" value="page.title.news.portal"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/tiles/news-message.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/news-message.jsp" />
+    </definition>
+    <definition name="newsList" extends="defaultTemplate">
+        <put-attribute name="title" value="page.title.news.portal"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/news-message.jsp" />
     </definition>
 </tiles-definitions>
