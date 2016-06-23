@@ -27,12 +27,13 @@ public class NewsDaoImpl implements NewsDao {
             "GROUP BY news.news_id, news.title, news.short_text, news.full_text, " +
             "news.creation_date, news.modification_date " +
             "ORDER BY COUNT(comment_id) DESC";
-    private static final String SELECT_ALL_NEWS = "SELECT news.news_id, news.title, news.short_text, " +
-            "news.creation_date, modification_date FROM news " +
+    private static final String SELECT_ALL_NEWS = "SELECT *  FROM (" +
+            "SELECT news.news_id, news.title, news.short_text, " +
+            "news.creation_date, modification_date, ROW_NUMBER() OVER (ORDER BY COUNT(comment_id) DESC) " +
+            "AS rn FROM news " +
             "LEFT JOIN comments ON news.news_id = comments.news_id " +
             "GROUP BY news.news_id, news.title, news.short_text, news.full_text, " +
-            "news.creation_date, news.modification_date " +
-            "ORDER BY COUNT(comment_id) DESC";
+            "news.creation_date, news.modification_date) WHERE rn BETWEEN ? AND ?";
     private static final String SELECT_NEWS_BY_ID = "SELECT news_id, title, short_text, full_text, creation_date, " +
             "modification_date FROM news WHERE news_id=?";
     private static final String UPDATE_NEWS = "UPDATE news SET title=?, short_text=?, full_text=?, " +
@@ -216,10 +217,12 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
-    public List<News> selectAllNews() throws DaoException {
+    public List<News> selectAllNews(Long page, Long limit) throws DaoException {
         List<News> newsList = new ArrayList<>();
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_NEWS)) {
+            statement.setLong(2, page*limit);
+            statement.setLong(1, (page-1)*limit + 1);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 newsList.add(extractNewsMessageFromResultSet(resultSet));

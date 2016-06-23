@@ -63,7 +63,7 @@ public interface NewsDao extends GenericDao<Long, News> {
      * @return a list of all news
      * @throws DaoException if exception occurred on the current level
      */
-    List<News> selectAllNews() throws DaoException;
+    List<News> selectAllNews(Long page, Long limit) throws DaoException;
 
     /**
      * Retrieves a list of news matching the search criteria

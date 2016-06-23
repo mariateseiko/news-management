@@ -79,10 +79,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
-    public List<NewsDTO> findAllNews() throws ServiceException {
+    public List<NewsDTO> findAllNews(Long page, Long limit) throws ServiceException {
         List<NewsDTO> newsDTOList;
         try {
-            List<News> news = newsDao.selectAllNews();
+            List<News> news = newsDao.selectAllNews(page, limit);
             if (news.size() > 0) {
                 newsDTOList = createNewsDTOList(news);
             } else {

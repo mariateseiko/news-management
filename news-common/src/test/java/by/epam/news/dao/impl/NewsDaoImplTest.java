@@ -120,7 +120,9 @@ public class NewsDaoImplTest {
 
     @Test
     public void testSelectAll() throws DaoException {
-        List<News> news = newsDao.selectAllNews();
+        Long page = 1L;
+        Long limit = 3L;
+        List<News> news = newsDao.selectAllNews(page, limit);
         Assert.assertEquals(3, news.size());
     }
 
