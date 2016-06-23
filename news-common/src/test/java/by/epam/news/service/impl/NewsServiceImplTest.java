@@ -93,8 +93,8 @@ public class NewsServiceImplTest {
         News news = new News(text, text, text);
         news.setId(id);
         newsList.add(news);
-        Mockito.when(newsDao.selectAllNews()).thenReturn(newsList);
-        List<NewsDTO> newsDTOList = newsService.findAllNews();
+        Mockito.when(newsDao.selectAllNews(anyLong(), anyLong())).thenReturn(newsList);
+        List<NewsDTO> newsDTOList = newsService.findAllNews(id, id);
         Assert.assertEquals(1, newsDTOList.size());
         Mockito.verify(authorDao).selectForNews(id);
         Mockito.verify(tagDao).selectForNews(id);

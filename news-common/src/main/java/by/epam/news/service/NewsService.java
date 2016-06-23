@@ -38,7 +38,7 @@ public interface NewsService {
      * @return list of all news
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    List<NewsDTO> findAllNews() throws ServiceException;
+    List<NewsDTO> findAllNews(Long page, Long limit) throws ServiceException;
 
     /**
      * Retrieves a list of all news messages by a given author
