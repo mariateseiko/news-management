@@ -18,7 +18,7 @@
     <c:forEach var="newsDTO" items="${newsDTOList}">
         <div class="news">
             <div class="float-left" style="font-weight: bold">${newsDTO.news.title}</div>
-            <div class="float-left author">by {$newsDTO.author}</div>
+            <div class="float-left author">by ${newsDTO.author.name}</div>
             <div class="float-right"><fmt:formatDate type="date"
                                                      value="${newsDTO.news.creationDate}"/></div>
             <br/>
@@ -38,7 +38,7 @@
 <div class="pagination">
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="<c:url value="/assets/js/multiple-select.js">"></script>
+<script src=<c:url value="/assets/js/multiple-select.js"/>></script>
 <script>
     $('#dropdown').multipleSelect();
 </script>

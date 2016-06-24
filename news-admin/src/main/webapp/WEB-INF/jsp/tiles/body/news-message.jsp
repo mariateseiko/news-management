@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="link">BACK</div>
 <div class="content">
     <div class="news">
@@ -14,14 +16,19 @@
     </div>
     <c:forEach var="comment" items="${newsDTO.comments}">
         <div class="comment">
+            <spring:url value="/comment/delete/${newsDTO.news.id}/${comment.id}" var="deleteUrl" />
             <div class="float-left"><fmt:formatDate type="date"
                                                     value="${comment.creationDate}"/></div><br/>
-            <div class=comment-text><button class="comment-delete-button">&#10006</button>${comment.commentText}</div>
+            <div class=comment-text><form:form cssStyle="margin-bottom: 0" action="${deleteUrl}" method="post"><button class="comment-delete-button"
+                                            >&#10006</button>${comment.commentText}</div></form:form>
         </div>
     </c:forEach>
-    <form class="comment-form">
-        <textarea class="input-comment" rows="5" ></textarea>
+    <c:url var="addUrl" value="/comment/add"/>
+
+    <form:form action="${addUrl}" class="comment-form" modelAttribute="comment" method="post">
+        <form:hidden path="newsId" value="${newsDTO.news.id}"/>
+        <form:textarea path="commentText" class="input-comment" rows="5" />
         <br/>
-        <button class="submit-button">Post</button>
-    </form>
+        <input type="submit" value="Post" class="submit-button"/>
+    </form:form>
 </div>

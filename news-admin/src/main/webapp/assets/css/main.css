@@ -55,6 +55,7 @@
 .filter {
     text-align: center;
     margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .dropdown button {
@@ -74,7 +75,7 @@
 }
 
 .author {
-    margin-left: 10%;
+    margin-left: 15px;
 }
 
 .news-short {
@@ -96,7 +97,7 @@
 }
 
 .news {
-    margin-bottom: 30px;
+    margin-bottom: 70px;
 }
 
 .comment {

@@ -1,6 +1,7 @@
 package by.epam.news.controller;
 
 import by.epam.news.domain.Author;
+import by.epam.news.domain.Comment;
 import by.epam.news.domain.NewsDTO;
 import by.epam.news.domain.Tag;
 import by.epam.news.service.AuthorService;
@@ -31,6 +32,7 @@ public class NewsController {
     public String viewMessage(Model model, @PathVariable("newsId") Long newsId) throws ServiceException {
         NewsDTO newsDTO = newsService.findById(newsId);
         model.addAttribute("newsDTO", newsDTO);
+        model.addAttribute("comment", new Comment());
         return "newsMessage";
     }
 
