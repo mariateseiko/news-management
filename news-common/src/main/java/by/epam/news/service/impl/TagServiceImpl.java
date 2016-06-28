@@ -55,4 +55,13 @@ public class TagServiceImpl implements TagService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public void deleteTag(Long tagId) throws ServiceException {
+        try {
+            tagDao.delete(tagId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

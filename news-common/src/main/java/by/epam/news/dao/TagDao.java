@@ -19,7 +19,14 @@ public interface TagDao extends GenericDao<Long, Tag> {
      * Retrieves a list of all tags for a specified news message
      * @param newsId id of the message to retrieve tags for
      * @return a list of tags for the news message
-     * @throws DaoException DaoException if exception occurred on the current level
+     * @throws DaoException if exception occurred on the current level
      */
     List<Tag> selectForNews(Long newsId) throws DaoException;
+
+    /**
+     * Deletes a tag with a specified id
+     * @param tagId id of the tag to delete
+     * @throws DaoException if exception occurred on the current level
+     */
+    void delete(Long tagId) throws DaoException;
 }

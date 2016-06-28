@@ -23,7 +23,7 @@ public class TagDaoImpl implements TagDao {
     private static final String SELECT_FOR_NEWS = "SELECT tags.tag_id, tags.tag_name FROM tags " +
             "JOIN news_tags ON tags.tag_id = news_tags.tag_id " +
             "WHERE news_id = ?";
-
+    private static final String DELETE_TAG = "DELETE FROM tags WHERE tag_id = ?";
     private static final String TAG_ID = "tag_id";
     private static final String TAG_NAME = "tag_name";
 
@@ -107,7 +107,23 @@ public class TagDaoImpl implements TagDao {
                 DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
-        return tags;    }
+        return tags;
+    }
+
+    @Override
+    public void delete(Long tagId) throws DaoException {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_TAG)) {
+            statement.setLong(1, tagId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Request to database failed", e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
+    }
 
     @Override
     public Long insert(Tag tag) throws DaoException {

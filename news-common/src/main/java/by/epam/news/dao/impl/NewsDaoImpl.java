@@ -2,7 +2,7 @@ package by.epam.news.dao.impl;
 
 import by.epam.news.dao.DaoException;
 import by.epam.news.dao.NewsDao;
-import by.epam.news.dao.utl.SQLQueryBuilder;
+import by.epam.news.dao.util.SQLQueryBuilder;
 import by.epam.news.domain.News;
 import by.epam.news.domain.SearchCriteria;
 import org.springframework.jdbc.datasource.DataSourceUtils;

@@ -77,4 +77,12 @@ public class TagDaoImplTest  {
         List<Tag> tags = tagDao.selectForNews(newsId);
         Assert.assertEquals(2, tags.size());
     }
+
+    @Test
+    @ExpectedDatabase(value = "classpath:xmldata/tagDataDelete.xml", assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED)
+    @DatabaseTearDown(value = { "classpath:xmldata/tagDataDelete.xml" }, type = DatabaseOperation.DELETE)
+    public void testDelete() throws DaoException {
+        Long tagId = 3L;
+        tagDao.delete(tagId);
+    }
 }
