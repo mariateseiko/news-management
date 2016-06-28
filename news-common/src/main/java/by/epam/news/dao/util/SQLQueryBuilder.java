@@ -1,4 +1,4 @@
-package by.epam.news.dao.utl;
+package by.epam.news.dao.util;
 
 import by.epam.news.domain.SearchCriteria;
 

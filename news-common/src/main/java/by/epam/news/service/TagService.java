@@ -38,4 +38,11 @@ public interface TagService {
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
     boolean updateTag(Tag tag) throws ServiceException;
+
+    /**
+     * Deletes a tag with a specified id
+     * @param tagId id of the tag to delete
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    void deleteTag(Long tagId) throws ServiceException;
 }
