@@ -132,3 +132,43 @@ ul {
     margin: 0;
     padding: 0;
 }
+
+.float-label {
+    float: left;
+    margin-right: 30px;
+}
+.float-input {
+    width: 33%;
+
+    margin-right: 30px;
+}
+
+.div-link {
+    text-decoration: underline;
+    color: #1f1f7a;
+    cursor: pointer;
+}
+.info-list input[type="submit"], input[type="button"] {
+    background: none;
+    border: none;
+    color: #1f1f7a;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    height: 20px;
+}
+
+.info-label {
+    display: inline-block;
+    text-align: right;
+    width: 140px;
+}
+
+.edit-info-label {
+    display: inline-block;
+    text-align: right;
+}
+
+[id^="edit-panel-"] {
+    display: inline-block;
+}
