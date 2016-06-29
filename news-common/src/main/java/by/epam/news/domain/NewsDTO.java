@@ -8,6 +8,7 @@ public class NewsDTO implements Serializable {
     private Author author;
     private List<Comment> comments;
     private List<Tag> tags;
+    private List<Long> tagsId;
 
     public NewsDTO() {}
 
@@ -54,5 +55,13 @@ public class NewsDTO implements Serializable {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<Long> getTagsId() {
+        return tagsId;
+    }
+
+    public void setTagsId(List<Long> tagsId) {
+        this.tagsId = tagsId;
     }
 }
