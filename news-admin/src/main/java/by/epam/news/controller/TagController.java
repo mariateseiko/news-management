@@ -32,11 +32,11 @@ public class TagController {
         return "redirect:/tag/manage";
     }
 
-   /* @RequestMapping(params="delete", method = RequestMethod.POST)
-    public String deleteTag(@ModelAttribute("author") Author author) throws ServiceException {
-        tagService
-        return "redirect:/author/manage";
-    }*/
+   @RequestMapping(params="delete", method = RequestMethod.POST)
+    public String deleteTag(@ModelAttribute("tag") Tag tag) throws ServiceException {
+        tagService.deleteTag(tag.getId());
+        return "redirect:/tag/manage";
+    }
 
     @RequestMapping(params="save", method = RequestMethod.POST)
     public String addTag(@ModelAttribute("tag") Tag tag) throws ServiceException {

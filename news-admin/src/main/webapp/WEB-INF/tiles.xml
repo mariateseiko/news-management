@@ -27,4 +27,8 @@
         <put-attribute name="title" value="page.title.news.portal"/>
         <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/tag-management.jsp"/>
     </definition>
+    <definition name="addNews" extends="defaultTemplate">
+        <put-attribute name="title" value="page.title.news.portal"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/add-news.jsp"/>
+    </definition>
 </tiles-definitions>

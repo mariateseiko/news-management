@@ -11,7 +11,7 @@
             <div class="edit-info-label div-link" id="info-button-${tag.id}">edit</div>
             <div id="edit-panel-${tag.id}" hidden style="display:none">
                 <div class="edit-info-label div-link"><input type="submit" name="update" value="update"/></div>
-                <div class="edit-info-label div-link"><input type="submit" name="expire" value="expire"/></div>
+                <div class="edit-info-label div-link"><input type="submit" name="delete" value="delete"/></div>
                 <div class="edit-info-label div-link" id="cancel-info-button-${tag.id}">cancel</div>
             </div>
             <br/>

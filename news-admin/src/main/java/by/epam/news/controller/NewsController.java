@@ -1,19 +1,19 @@
 package by.epam.news.controller;
 
-import by.epam.news.domain.Author;
-import by.epam.news.domain.Comment;
-import by.epam.news.domain.NewsDTO;
-import by.epam.news.domain.Tag;
+import by.epam.news.domain.*;
 import by.epam.news.service.AuthorService;
 import by.epam.news.service.NewsService;
 import by.epam.news.service.ServiceException;
 import by.epam.news.service.TagService;
-import org.hibernate.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -45,5 +45,22 @@ public class NewsController {
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         return "newsList";
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String viewAddNews(Model model) throws ServiceException {
+        List<Author> authors = authorService.findNotExpiredAuthors();
+        List<Tag> tags = tagService.findAll();
+        model.addAttribute("newsDTO", new NewsDTO());
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
+        return "addNews";
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addNews(@ModelAttribute("newsDTO") NewsDTO newsDTO,
+                          BindingResult result, ModelMap model) throws ServiceException {
+        Long newsId = newsService.addNews(newsDTO);
+        return "redirect:/message/" + newsId;
     }
 }
