@@ -49,8 +49,8 @@ public class NewsServiceImpl implements NewsService {
             newsId = newsDao.insert(newsDTO.getNews());
             if (newsId != null) {
                 newsDao.linkAuthorNews(newsId, newsDTO.getAuthor().getId());
-                for (Tag tag : newsDTO.getTags()) {
-                    newsDao.linkTagNews(newsId, tag.getId());
+                for (Long tagId : newsDTO.getTagsId()) {
+                    newsDao.linkTagNews(newsId, tagId);
                 }
             }
         } catch (DaoException e) {
