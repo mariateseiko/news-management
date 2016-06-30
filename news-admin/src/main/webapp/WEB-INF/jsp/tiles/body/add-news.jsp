@@ -18,10 +18,9 @@
         <div class="filter">
             <form:select path="author.id">
                 <form:options items="${authors}"  itemValue="id" itemLabel="name"/>
-
             </form:select>
-            <form:select id="dropdown" class="dropdown" multiple="multiple" path="tags">
-                <form:options items="${authors}"  itemValue="id" itemLabel="name"/>
+            <form:select id="dropdown" class="dropdown" multiple="multiple" path="tags" varStatus="iterIndex">
+               <form:options items="${tags}"  itemValue="id" itemLabel="name"/>
             </form:select>
         </div>
         <button class="submit-button" style="margin-right: 37px">Save</button>

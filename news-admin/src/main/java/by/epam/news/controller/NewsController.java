@@ -6,14 +6,13 @@ import by.epam.news.service.NewsService;
 import by.epam.news.service.ServiceException;
 import by.epam.news.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +26,21 @@ public class NewsController {
     @Autowired
     private TagService tagService;
     private static final Long newsLimitPerPage = 3L;
+
+    @InitBinder
+    public void dataBinding(WebDataBinder binder) {
+        binder.registerCustomEditor(List.class, "tags", new CustomCollectionEditor(List.class) {
+            protected Object convertElement(Object element) {
+                if (element != null) {
+                    Long id = new Long((String)element);
+                    Tag tag = new Tag();
+                    tag.setId(id);
+                    return tag;
+                }
+                return null;
+            }
+        });
+    }
 
     @RequestMapping(value="/message/{newsId}")
     public String viewMessage(Model model, @PathVariable("newsId") Long newsId) throws ServiceException {
