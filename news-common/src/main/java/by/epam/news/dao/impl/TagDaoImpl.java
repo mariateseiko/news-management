@@ -16,14 +16,15 @@ import java.util.List;
 public class TagDaoImpl implements TagDao {
     private DataSource dataSource;
 
-    private static final String SELECT_TAG_BY_ID = "SELECT tag_id, tag_name FROM tags WHERE tag_id = ?";
-    private static final String UPDATE_TAG = "UPDATE tags SET tag_name = ? WHERE tag_id = ?";
-    private static final String SELECT_ALL_TAGS = "SELECT tag_id, tag_name FROM tags";
-    private static final String INSERT_TAG = "INSERT INTO tags (tag_name) VALUES(?)";
-    private static final String SELECT_FOR_NEWS = "SELECT tags.tag_id, tags.tag_name FROM tags " +
+    private static final String SQL_SELECT_TAG_BY_ID = "SELECT tag_id, tag_name FROM tags WHERE tag_id = ?";
+    private static final String SQL_UPDATE_TAG = "UPDATE tags SET tag_name = ? WHERE tag_id = ?";
+    private static final String SQL_SELECT_ALL_TAGS = "SELECT tag_id, tag_name FROM tags";
+    private static final String SQL_INSERT_TAG = "INSERT INTO tags (tag_name) VALUES(?)";
+    private static final String SQL_SELECT_FOR_NEWS = "SELECT tags.tag_id, tags.tag_name FROM tags " +
             "JOIN news_tags ON tags.tag_id = news_tags.tag_id " +
             "WHERE news_id = ?";
-    private static final String DELETE_TAG = "DELETE FROM tags WHERE tag_id = ?";
+    private static final String SQL_DELETE_TAG = "DELETE FROM tags WHERE tag_id = ?";
+
     private static final String TAG_ID = "tag_id";
     private static final String TAG_NAME = "tag_name";
 
@@ -32,17 +33,17 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public Tag selectById(Long id) throws DaoException {
+    public Tag selectById(Long tagId) throws DaoException {
         Tag tag = null;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_TAG_BY_ID)) {
-            statement.setLong(1, id);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_TAG_BY_ID)) {
+            statement.setLong(1, tagId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 tag = extractTagFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select tag with tagId: " + tagId, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -52,35 +53,33 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public boolean update(Tag tag) throws DaoException {
-        int countUpdatedRows;
+    public void update(Tag tag) throws DaoException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_TAG)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_TAG)) {
             statement.setString(1, tag.getName());
             statement.setLong(2, tag.getId());
-            countUpdatedRows = statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to update tag: " + tag, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
-        return countUpdatedRows > 0;
     }
 
     @Override
     public List<Tag> selectAll() throws DaoException {
         List<Tag> tags = new ArrayList<>();
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_TAGS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_TAGS)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Tag tag = extractTagFromResultSet(resultSet);
                 tags.add(tag);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select all tags", e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -93,7 +92,7 @@ public class TagDaoImpl implements TagDao {
     public List<Tag> selectForNews(Long newsId) throws DaoException {
         List<Tag> tags = new ArrayList<>();
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_FOR_NEWS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_FOR_NEWS)) {
             statement.setLong(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -101,7 +100,7 @@ public class TagDaoImpl implements TagDao {
                 tags.add(tag);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select all tags for news with id: " + newsId, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -113,11 +112,11 @@ public class TagDaoImpl implements TagDao {
     @Override
     public void delete(Long tagId) throws DaoException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_TAG)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_TAG)) {
             statement.setLong(1, tagId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to delete tag with id: " + tagId, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -129,7 +128,7 @@ public class TagDaoImpl implements TagDao {
     public Long insert(Tag tag) throws DaoException {
         Long generatedId = -1L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_TAG, new String[]{TAG_ID})) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_TAG, new String[]{TAG_ID})) {
             statement.setString(1, tag.getName());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -137,7 +136,7 @@ public class TagDaoImpl implements TagDao {
                 generatedId = resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to insert tag: " + tag, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);

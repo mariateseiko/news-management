@@ -14,17 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorDaoImpl implements AuthorDao {
-    private static final String SELECT_AUTHOR_BY_ID = "SELECT author_id, author_name, expired FROM " +
+    private static final String SQL_SELECT_AUTHOR_BY_ID = "SELECT author_id, author_name, expired FROM " +
             "authors WHERE author_id = ?";
-    private static final String UPDATE_AUTHOR = "UPDATE authors SET author_name=?, expired=? WHERE author_id=?";
-    private static final String INSERT_AUTHOR = "INSERT INTO authors (author_name, expired) VALUES(?,?)";
-    private static final String SELECT_AUTHOR_BY_NEWS_ID = "SELECT authors.author_id, authors.author_name, " +
+    private static final String SQL_UPDATE_AUTHOR = "UPDATE authors SET author_name=?, expired=? WHERE author_id=?";
+    private static final String SQL_INSERT_AUTHOR = "INSERT INTO authors (author_name, expired) VALUES(?,?)";
+    private static final String SQL_SELECT_AUTHOR_BY_NEWS_ID = "SELECT authors.author_id, authors.author_name, " +
             "authors.expired FROM news_authors " +
             "JOIN authors ON authors.author_id = news_authors.author_id " +
             "WHERE news_id = ?";
-    private static final String SELECT_NOT_EXPIRED = "SELECT author_id, author_name, expired FROM " +
+    private static final String SQL_SELECT_NOT_EXPIRED = "SELECT author_id, author_name, expired FROM " +
             "authors WHERE expired IS NULL";
-    private static final String UPDATE_EXPIRED = "UPDATE authors SET expired=CURRENT_TIMESTAMP WHERE author_id=?";
+    private static final String SQL_UPDATE_EXPIRED = "UPDATE authors SET expired=CURRENT_TIMESTAMP WHERE author_id=?";
 
     private static final String AUTHOR_ID = "author_id";
     private static final String AUTHOR_NAME = "author_name";
@@ -40,14 +40,14 @@ public class AuthorDaoImpl implements AuthorDao {
     public Author selectById(Long id) throws DaoException {
         Author author = null;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_AUTHOR_BY_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_AUTHOR_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 author = extractAuthorFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select entity for id: " + id, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -57,29 +57,27 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public boolean update(Author author) throws DaoException {
-        int countUpdatedRows;
+    public void update(Author author) throws DaoException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_AUTHOR)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_AUTHOR)) {
             statement.setString(1, author.getName());
             statement.setTimestamp(2, author.getExpired());
             statement.setLong(3, author.getId());
-            countUpdatedRows = statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to update author: " + author, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
-        return countUpdatedRows > 0;
     }
 
     @Override
     public Long insert(Author author) throws DaoException {
         Long generatedId = -1L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_AUTHOR, new String[]{AUTHOR_ID})) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_AUTHOR, new String[]{AUTHOR_ID})) {
             statement.setString(1, author.getName());
             statement.setTimestamp(2, author.getExpired());
             statement.executeUpdate();
@@ -88,7 +86,7 @@ public class AuthorDaoImpl implements AuthorDao {
                 generatedId = resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to insert author: " + author, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -101,7 +99,7 @@ public class AuthorDaoImpl implements AuthorDao {
     public List<Author> selectForNews(Long newsId) throws DaoException {
         List<Author> authors = new ArrayList<>();
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_AUTHOR_BY_NEWS_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_AUTHOR_BY_NEWS_ID)) {
             statement.setLong(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -109,7 +107,7 @@ public class AuthorDaoImpl implements AuthorDao {
                 authors.add(author);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select authors for news with id: " + newsId, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -122,14 +120,14 @@ public class AuthorDaoImpl implements AuthorDao {
     public List<Author> selectNotExpired() throws DaoException {
         List<Author> authors = new ArrayList<>();
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_NOT_EXPIRED)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_NOT_EXPIRED)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Author author = extractAuthorFromResultSet(resultSet);
                 authors.add(author);
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select not expired authors", e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
@@ -139,20 +137,18 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public boolean updateExpired(Long authorId) throws DaoException {
-        int countUpdatedRows;
+    public void updateExpired(Long authorId) throws DaoException {
         Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_EXPIRED)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_EXPIRED)) {
             statement.setLong(1, authorId);
-            countUpdatedRows = statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to update expired status for author with id: " + authorId, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
-        return countUpdatedRows > 0;
     }
 
     private Author extractAuthorFromResultSet(ResultSet resultSet) throws SQLException {

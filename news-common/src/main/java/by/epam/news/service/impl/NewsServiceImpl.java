@@ -43,14 +43,21 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
-    public Long addNews(NewsDTO newsDTO) throws ServiceException {
-        Long newsId;
+    public Long saveNews(NewsDTO newsDTO) throws ServiceException {
+        Long newsId = newsDTO.getNews().getId();
         try {
-            newsId = newsDao.insert(newsDTO.getNews());
-            if (newsId != null) {
-                newsDao.linkAuthorNews(newsId, newsDTO.getAuthor().getId());
-                for (Long tagId : newsDTO.getTagsId()) {
-                    newsDao.linkTagNews(newsId, tagId);
+            if (newsId == null) {
+                newsId = newsDao.insert(newsDTO.getNews());
+            } else {
+                newsDao.update(newsDTO.getNews());
+                newsDao.unlinkAllAuthors(newsId);
+                newsDao.unlinkAllTags(newsId);
+            }
+            newsDao.linkAuthorNews(newsId, newsDTO.getAuthor().getId());
+            List<Tag> tags = newsDTO.getTags();
+            if (tags != null) {
+                for (Tag tagId : tags) {
+                    newsDao.linkTagNews(newsId, tagId.getId());
                 }
             }
         } catch (DaoException e) {
@@ -113,43 +120,22 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
-    public boolean deleteNews(Long newsId) throws ServiceException {
+    public void deleteNews(Long newsId) throws ServiceException {
         try {
             commentDao.deleteForNews(newsId);
             newsDao.delete(newsId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return true;
     }
 
     @Override
     @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
-    public boolean addTagsToNews(Long newsId, List<Long> tagsId) throws ServiceException {
+    public void addTagsToNews(Long newsId, List<Long> tagsId) throws ServiceException {
         try {
             for (Long tagId: tagsId) {
                 newsDao.linkTagNews(newsId, tagId);
             }
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean deleteTagFromNews(Long newsId, Long tagId) throws ServiceException {
-        try {
-            newsDao.unlinkTagNews(newsId, tagId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean updateNews(News news) throws ServiceException {
-        try {
-            return newsDao.update(news);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

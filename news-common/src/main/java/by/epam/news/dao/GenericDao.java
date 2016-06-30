@@ -7,6 +7,6 @@ package by.epam.news.dao;
  */
 public interface GenericDao<K, T> {
     T selectById(K id) throws DaoException;
-    boolean update(T entity) throws DaoException;
+    void update(T entity) throws DaoException;
     Long insert(T entity) throws DaoException;
 }

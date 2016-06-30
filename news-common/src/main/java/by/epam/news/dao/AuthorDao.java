@@ -26,8 +26,7 @@ public interface AuthorDao extends GenericDao<Long, Author> {
     /**
      * Updates an author's expired field to the current timestamp
      * @param authorId id fo the author to mar expired
-     * @return true if update succeeded
      * @throws DaoException if exception occurred on the current level
      */
-    boolean updateExpired(Long authorId) throws DaoException;
+    void updateExpired(Long authorId) throws DaoException;
 }
