@@ -22,7 +22,6 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 
 import java.util.List;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:testApplicationContext.xml" })
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
@@ -51,7 +50,7 @@ public class TagDaoImplTest  {
         Long tagId = 1L;
         tag.setId(tagId);
         tag.setName("Some test tag");
-        Assert.assertTrue(tagDao.update(tag));
+        tagDao.update(tag);
     }
 
     @Test
@@ -84,5 +83,20 @@ public class TagDaoImplTest  {
     public void testDelete() throws DaoException {
         Long tagId = 3L;
         tagDao.delete(tagId);
+    }
+
+    @Test
+    public void testLinkTagNews() throws DaoException {
+        Long newsId = 1L;
+        Long tagId = 1L;
+        tagDao.linkTagNews(newsId, tagId);
+        Assert.assertEquals(tagId, tagDao.selectForNews(newsId).get(0).getId());
+    }
+
+    @Test
+    public void testUnlinkTagNews() throws DaoException {
+        Long newsId = 2L;
+        tagDao.unlinkAllTags(newsId);
+        Assert.assertEquals(0, tagDao.selectForNews(newsId).size());
     }
 }

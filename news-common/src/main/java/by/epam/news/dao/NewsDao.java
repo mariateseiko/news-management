@@ -21,34 +21,7 @@ public interface NewsDao extends GenericDao<Long, News> {
      * @param authorId id of the author
      * @return a list of author's news
      */
-    List<News> selectNewsByAuthor(Long authorId);
-
-    /**
-     * Links a tag to a news message
-     * @param newsId id of the news
-     * @param tagId id of the tag
-     * @return true if successfully linked
-     * @throws DaoException if exception occurred on the current level
-     */
-    boolean linkTagNews(Long newsId, Long tagId) throws DaoException;
-
-    /**
-     * Unlinks a tag from a news messages
-     * @param newsId id of the news
-     * @param tagId id of the tag
-     * @return true if successfully unlinked
-     * @throws DaoException if exception occurred on the current level
-     */
-    boolean unlinkTagNews(Long newsId, Long tagId) throws DaoException;
-
-    /**
-     * Links an author to a news message
-     * @param newsId id of the news message
-     * @param authorId id of the author
-     * @return true is successfully linked
-     * @throws DaoException if exception occurred on the current level
-     */
-    boolean linkAuthorNews(Long newsId, Long authorId) throws DaoException;
+    List<News> selectNewsByAuthor(Long authorId) throws DaoException;
 
     /**
      * Deletes a specified news message
@@ -56,7 +29,7 @@ public interface NewsDao extends GenericDao<Long, News> {
      * @return true if successfully deleted
      * @throws DaoException if exception occurred on the current level
      */
-    boolean delete(Long newsId) throws DaoException;
+    void delete(Long newsId) throws DaoException;
 
     /**
      * Retrieves a list of all news sorted by comments count

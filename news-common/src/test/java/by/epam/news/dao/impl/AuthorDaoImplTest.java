@@ -51,7 +51,7 @@ public class AuthorDaoImplTest {
         author.setId(authorId);
         author.setName(name);
         author.setExpired(null);
-        Assert.assertTrue(authorDao.update(author));
+        authorDao.update(author);
     }
 
     @Test
@@ -81,7 +81,23 @@ public class AuthorDaoImplTest {
     @Test
     public void testUpdateExpired() throws DaoException {
         Long authorId = 1L;
-        Assert.assertTrue(authorDao.updateExpired(authorId));
+        authorDao.updateExpired(authorId);
         Assert.assertNotNull(authorDao.selectById(authorId).getExpired());
     }
+
+    @Test
+    public void testLinkAuthorNews() throws DaoException {
+        Long newsId = 1L;
+        Long authorId = 1L;
+        authorDao.linkAuthorNews(newsId, authorId);
+        Assert.assertEquals(authorId, authorDao.selectForNews(newsId).get(0).getId());
+    }
+
+    @Test
+    public void testUnlinkAuthorsFromNews() throws DaoException {
+        Long newsId = 1L;
+        authorDao.unlinkAllAuthors(newsId);
+        Assert.assertEquals(0, authorDao.selectForNews(newsId).size());
+    }
+
 }
