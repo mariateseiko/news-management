@@ -29,4 +29,21 @@ public interface AuthorDao extends GenericDao<Long, Author> {
      * @throws DaoException if exception occurred on the current level
      */
     void updateExpired(Long authorId) throws DaoException;
+
+    /**
+     * Unlinks all authors from a news messages
+     * @param newsId id of the news
+     * @throws DaoException if exception occurred on the current level
+     */
+    void unlinkAllAuthors(Long newsId) throws DaoException;
+
+
+    /**
+     * Links an author to a news message
+     * @param newsId id of the news message
+     * @param authorId id of the author
+     * @return true is successfully linked
+     * @throws DaoException if exception occurred on the current level
+     */
+    void linkAuthorNews(Long newsId, Long authorId) throws DaoException;
 }

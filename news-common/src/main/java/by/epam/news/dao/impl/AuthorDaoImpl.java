@@ -25,6 +25,8 @@ public class AuthorDaoImpl implements AuthorDao {
     private static final String SQL_SELECT_NOT_EXPIRED = "SELECT author_id, author_name, expired FROM " +
             "authors WHERE expired IS NULL";
     private static final String SQL_UPDATE_EXPIRED = "UPDATE authors SET expired=CURRENT_TIMESTAMP WHERE author_id=?";
+    private static final String SQL_UNLINK_AUTHORS_NEWS = "DELETE FROM news_authors WHERE news_id=?";
+    private static final String SQL_LINK_AUTHOR_NEWS = "INSERT INTO news_authors (news_id, author_id) VALUES(?,?)";
 
     private static final String AUTHOR_ID = "author_id";
     private static final String AUTHOR_NAME = "author_name";
@@ -144,6 +146,38 @@ public class AuthorDaoImpl implements AuthorDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException("Failed to update expired status for author with id: " + authorId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
+    }
+
+    @Override
+    public void unlinkAllAuthors(Long newsId) throws DaoException {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UNLINK_AUTHORS_NEWS)) {
+            statement.setLong(1, newsId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Failed to unlink authors from news with id: " + newsId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
+    }
+
+    @Override
+    public void linkAuthorNews(Long newsId, Long authorId) throws DaoException {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_LINK_AUTHOR_NEWS)) {
+            statement.setLong(1, newsId);
+            statement.setLong(2, authorId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Failed to link news with id: " + newsId + " and author with id: " +
+                    authorId, e);
         } finally {
             if (connection != null) {
                 DataSourceUtils.releaseConnection(connection, dataSource);

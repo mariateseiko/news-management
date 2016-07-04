@@ -11,9 +11,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 
 public class AuthorServiceImplTest {
     @Mock
@@ -69,16 +74,35 @@ public class AuthorServiceImplTest {
 
     @Test
     public void testMarkExpired() throws DaoException, ServiceException {
-        Mockito.when(authorDao.updateExpired(authorId)).thenReturn(true);
-        Assert.assertTrue(authorService.markExpired(authorId));
+        authorService.markExpired(authorId);
         Mockito.verify(authorDao).updateExpired(authorId);
     }
 
     @Test
     public void testUpdateAuthor() throws DaoException, ServiceException {
         Author author = new Author(authorId, authorName, null);
-        Mockito.when(authorDao.update(author)).thenReturn(true);
-        Assert.assertTrue(authorService.updateAuthor(author));
+        authorService.updateAuthor(author);
         Mockito.verify(authorDao).update(author);
+    }
+
+    @Test
+    public void testFindNewsAuthors() throws DaoException, ServiceException {
+        List<Author> notExpiredAuthors = new ArrayList<>();
+        notExpiredAuthors.add(new Author(authorId, authorName, null));
+        Mockito.when(authorDao.selectForNews(authorId)).thenReturn(notExpiredAuthors);
+        Assert.assertEquals(notExpiredAuthors, authorService.findNewsAuthors(authorId));
+        Mockito.verify(authorDao).selectForNews(authorId);
+    }
+
+    @Test
+    public void testLinkAuthorToNews() throws DaoException, ServiceException {
+        authorService.linkAuthorToNews(authorId, authorId);
+        Mockito.verify(authorDao).linkAuthorNews(authorId, authorId);
+    }
+
+    @Test
+    public void testUnlinkAuthorsFromNews() throws DaoException, ServiceException {
+        authorService.unlinkAllAuthorsFromNews(authorId);
+        Mockito.verify(authorDao).unlinkAllAuthors(authorId);
     }
 }

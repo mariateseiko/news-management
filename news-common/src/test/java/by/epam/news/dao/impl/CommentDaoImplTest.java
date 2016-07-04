@@ -49,7 +49,7 @@ public class CommentDaoImplTest {
         Long commentId = 1L;
         comment.setId(commentId);
         comment.setCommentText("Some new test comment");
-        Assert.assertTrue(commentDao.update(comment));
+        commentDao.update(comment);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class CommentDaoImplTest {
     @DatabaseTearDown(value = { "classpath:xmldata/commentDataDelete.xml" }, type = DatabaseOperation.DELETE)
     public void testDelete() throws DaoException {
         Long commentId = 1L;
-        Assert.assertTrue(commentDao.delete(commentId));
+        commentDao.delete(commentId);
     }
 
     @Test
@@ -84,6 +84,6 @@ public class CommentDaoImplTest {
     @DatabaseTearDown(value = { "classpath:xmldata/commentDataDeleteByNews.xml" }, type = DatabaseOperation.DELETE)
     public void testDeleteByNewsId() throws DaoException {
         Long newsId = 1L;
-        Assert.assertTrue(commentDao.deleteForNews(newsId));
+        commentDao.deleteForNews(newsId);
     }
 }

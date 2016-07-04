@@ -1,6 +1,7 @@
 package by.epam.news.service;
 
 import by.epam.news.domain.Tag;
+import org.hibernate.service.Service;
 
 import java.util.List;
 
@@ -34,10 +35,9 @@ public interface TagService {
     /**
      * Updates an existing tag
      * @param tag tag with an id and updated fields
-     * @return true if update succeeded
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    boolean updateTag(Tag tag) throws ServiceException;
+    void updateTag(Tag tag) throws ServiceException;
 
     /**
      * Deletes a tag with a specified id
@@ -45,4 +45,27 @@ public interface TagService {
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
     void deleteTag(Long tagId) throws ServiceException;
+
+    /**
+     * Returns a list of all tags for a given news message
+     * @param newsId id of the news message
+     * @return list of tags
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    List<Tag> findNewsTags(Long newsId) throws ServiceException;
+
+    /**
+     * Unlinks all tags from a given news message
+     * @param newsId id of the news message
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    void unlinkAllTagsFromNews(Long newsId) throws ServiceException;
+
+    /**
+     * Links a tags to a given news message
+     * @param newsId id of the news message
+     * @param tagId id of the tag
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    void linkTagToNews(Long newsId, Long tagId) throws ServiceException;
 }

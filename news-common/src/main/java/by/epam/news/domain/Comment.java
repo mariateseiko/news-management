@@ -14,7 +14,7 @@ public class Comment {
 
     public Comment() {}
 
-    public Comment(String commentText, Long newsId) {
+    public Comment(Long newsId, String commentText) {
         this.commentText = commentText;
         this.newsId = newsId;
     }

@@ -24,6 +24,8 @@ public class TagDaoImpl implements TagDao {
             "JOIN news_tags ON tags.tag_id = news_tags.tag_id " +
             "WHERE news_id = ?";
     private static final String SQL_DELETE_TAG = "DELETE FROM tags WHERE tag_id = ?";
+    private static final String SQL_LINK_TAG_NEWS = "INSERT INTO news_tags (news_id, tag_id) VALUES(?,?)";
+    private static final String SQL_UNLINK_TAGS_NEWS = "DELETE FROM news_tags WHERE news_id=?";
 
     private static final String TAG_ID = "tag_id";
     private static final String TAG_NAME = "tag_name";
@@ -143,6 +145,37 @@ public class TagDaoImpl implements TagDao {
             }
         }
         return generatedId;
+    }
+
+    @Override
+    public void linkTagNews(Long newsId, Long tagId) throws DaoException {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_LINK_TAG_NEWS)) {
+            statement.setLong(1, newsId);
+            statement.setLong(2, tagId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Failed to link news with id: " + newsId + " and tag with id " + tagId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
+    }
+
+    @Override
+    public void unlinkAllTags(Long newsId) throws DaoException {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UNLINK_TAGS_NEWS)) {
+            statement.setLong(1, newsId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException("Failed to unlink all tags from news with id: " + newsId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
     }
 
     private Tag extractTagFromResultSet(ResultSet resultSet) throws SQLException {

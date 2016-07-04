@@ -40,10 +40,6 @@ public class NewsDaoImpl implements NewsDao {
             "modification_date = CURRENT_TIMESTAMP WHERE news_id=?";
     private static final String SQL_INSERT_NEWS = "INSERT INTO news (title, short_text, full_text, creation_date, " +
             "modification_date) VALUES (?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
-    private static final String SQL_LINK_TAG_NEWS = "INSERT INTO news_tags (news_id, tag_id) VALUES(?,?)";
-    private static final String SQL_UNLINK_TAGS_NEWS = "DELETE FROM news_tags WHERE news_id=?";
-    private static final String SQL_UNLINK_AUTHORS_NEWS = "DELETE FROM news_authors WHERE news_id=?";
-    private static final String SQL_LINK_AUTHOR_NEWS = "INSERT INTO news_authors (news_id, author_id) VALUES(?,?)";
     private static final String SQL_DELETE_NEWS = "DELETE FROM news WHERE news_id=?";
 
     private static final String NEWS_ID = "news_id";
@@ -145,67 +141,7 @@ public class NewsDaoImpl implements NewsDao {
         return generatedId;
     }
 
-    @Override
-    public void linkTagNews(Long newsId, Long tagId) throws DaoException {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SQL_LINK_TAG_NEWS)) {
-            statement.setLong(1, newsId);
-            statement.setLong(2, tagId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException("Failed to link news with id: " + newsId + " and tag with id " + tagId, e);
-        } finally {
-            if (connection != null) {
-                DataSourceUtils.releaseConnection(connection, dataSource);
-            }
-        }
-    }
 
-    @Override
-    public void unlinkAllTags(Long newsId) throws DaoException {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SQL_UNLINK_TAGS_NEWS)) {
-            statement.setLong(1, newsId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException("Failed to unlink all tags from news with id: " + newsId, e);
-        } finally {
-            if (connection != null) {
-                DataSourceUtils.releaseConnection(connection, dataSource);
-            }
-        }
-    }
-
-    @Override
-    public void unlinkAllAuthors(Long newsId) throws DaoException {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SQL_UNLINK_AUTHORS_NEWS)) {
-            statement.setLong(1, newsId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
-        } finally {
-            if (connection != null) {
-                DataSourceUtils.releaseConnection(connection, dataSource);
-            }
-        }
-    }
-
-    @Override
-    public void linkAuthorNews(Long newsId, Long authorId) throws DaoException {
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try (PreparedStatement statement = connection.prepareStatement(SQL_LINK_AUTHOR_NEWS)) {
-            statement.setLong(1, newsId);
-            statement.setLong(2, authorId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
-        } finally {
-            if (connection != null) {
-                DataSourceUtils.releaseConnection(connection, dataSource);
-            }
-        }
-    }
 
     public void delete(Long newsId) throws DaoException {
         Connection connection = DataSourceUtils.getConnection(dataSource);

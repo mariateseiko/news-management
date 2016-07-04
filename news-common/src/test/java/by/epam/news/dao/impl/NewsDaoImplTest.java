@@ -37,12 +37,6 @@ public class NewsDaoImplTest {
     private NewsDao newsDao;
 
     @Test
-    public void testLinkAuthorNews() throws DaoException {
-        Long newsId = 1L;
-        Long authorId = 1L;
-        Assert.assertTrue(newsDao.linkAuthorNews(newsId, authorId));
-    }
-    @Test
     public void testTotalCount() throws DaoException {
         int totalCount = newsDao.selectTotalCount();
         Assert.assertTrue(totalCount > 0);
@@ -73,7 +67,7 @@ public class NewsDaoImplTest {
         news.setTitle(text);
         news.setShortText(text);
         news.setFullText(text);
-        Assert.assertTrue(newsDao.update(news));
+        newsDao.update(news);
         News updatedNews = newsDao.selectById(newsId);
         Assert.assertEquals(newsId, updatedNews.getId());
         Assert.assertEquals(text, updatedNews.getTitle());
@@ -98,23 +92,9 @@ public class NewsDaoImplTest {
     }
 
     @Test
-    public void testLinkTagNews() throws DaoException {
-        Long newsId = 1L;
-        Long tagId = 1L;
-        Assert.assertTrue(newsDao.linkTagNews(newsId, tagId));
-    }
-
-    @Test
-    public void testUnlinkTagNews() throws DaoException {
-        Long newsId = 2L;
-        Long tagId = 1L;
-        Assert.assertTrue(newsDao.unlinkTagNews(newsId, tagId));
-    }
-
-    @Test
     public void testDelete() throws DaoException {
         Long newsId = 2L;
-        Assert.assertTrue(newsDao.delete(newsId));
+        newsDao.delete(newsId);
         Assert.assertNull(newsDao.selectById(newsId));
     }
 

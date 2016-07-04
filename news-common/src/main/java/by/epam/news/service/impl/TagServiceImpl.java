@@ -48,9 +48,9 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public boolean updateTag(Tag tag) throws ServiceException {
+    public void updateTag(Tag tag) throws ServiceException {
         try {
-            return tagDao.update(tag);
+            tagDao.update(tag);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -60,6 +60,33 @@ public class TagServiceImpl implements TagService {
     public void deleteTag(Long tagId) throws ServiceException {
         try {
             tagDao.delete(tagId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Tag> findNewsTags(Long newsId) throws ServiceException {
+        try {
+            return tagDao.selectForNews(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void unlinkAllTagsFromNews(Long newsId) throws ServiceException {
+        try {
+            tagDao.unlinkAllTags(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void linkTagToNews(Long newsId, Long tagId) throws ServiceException {
+        try {
+            tagDao.linkTagNews(newsId, tagId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
