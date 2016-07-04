@@ -19,16 +19,14 @@ public interface CommentDao extends GenericDao<Long, Comment> {
     /**
      * Deletes a specified comment
      * @param id id fo the comment to delete
-     * @return true if successfully deleted
      * @throws DaoException if exception occurred on the current level
      */
-    boolean delete(Long id) throws DaoException;
+    void delete(Long id) throws DaoException;
 
     /**
      * Deletes all comments for a specified news message
      * @param newsId id of the news message
-     * @return true if successfully deleted
      * @throws DaoException if exception occurred on the current level
      */
-    boolean deleteForNews(Long newsId) throws DaoException;
+    void deleteForNews(Long newsId) throws DaoException;
 }

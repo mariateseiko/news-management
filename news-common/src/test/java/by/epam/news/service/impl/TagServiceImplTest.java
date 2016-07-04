@@ -15,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.anyLong;
+
 public class TagServiceImplTest {
     @Mock
     private TagDao tagDao;
@@ -63,8 +65,7 @@ public class TagServiceImplTest {
     public void testUpdateTag() throws DaoException, ServiceException {
         Tag tag = new Tag();
         tag.setName(tagName);
-        Mockito.when(tagDao.update(tag)).thenReturn(true);
-        Assert.assertTrue(tagService.updateTag(tag));
+        tagService.updateTag(tag);
         Mockito.verify(tagDao).update(tag);
     }
 
@@ -75,4 +76,32 @@ public class TagServiceImplTest {
         Assert.assertEquals(tagId, tagService.addTag(tag));
         Mockito.verify(tagDao).insert(tag);
     }
+
+    @Test
+    public void testAddTagToNews() throws DaoException, ServiceException {
+        tagService.linkTagToNews(anyLong(), anyLong());
+        Mockito.verify(tagDao).linkTagNews(anyLong(), anyLong());
+    }
+
+    @Test
+    public void testUnlinkAllTagsFromNews() throws DaoException, ServiceException {
+        tagService.unlinkAllTagsFromNews(tagId);
+        Mockito.verify(tagDao).unlinkAllTags(tagId);
+    }
+
+    @Test
+    public void testFindNewsTags() throws DaoException, ServiceException {
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag(tagId, tagName));
+        Mockito.when(tagService.findNewsTags(tagId)).thenReturn(tags);
+        Assert.assertEquals(tags, tagService.findNewsTags(tagId));
+        Mockito.verify(tagDao).selectForNews(tagId);
+    }
+
+    @Test
+    public void testDeleteTag() throws DaoException, ServiceException {
+        tagService.deleteTag(tagId);
+        Mockito.verify(tagDao).delete(tagId);
+    }
+
 }

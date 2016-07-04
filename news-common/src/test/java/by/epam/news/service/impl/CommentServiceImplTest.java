@@ -13,7 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CommentServiceImplTest {
     @Mock
@@ -41,17 +43,31 @@ public class CommentServiceImplTest {
     }
 
     @Test
-    public void addComment() throws ServiceException, DaoException {
-        Comment comment = new Comment(commentText, newsId);
+    public void testAddComment() throws ServiceException, DaoException {
+        Comment comment = new Comment(newsId, commentText);
         Mockito.when(commentDao.insert(comment)).thenReturn(commentId);
         Assert.assertEquals(commentId, commentService.addComment(comment));
         Mockito.verify(commentDao).insert(comment);
     }
 
     @Test
-    public void deleteComment() throws ServiceException, DaoException {
-        Mockito.when(commentDao.delete(commentId)).thenReturn(true);
-        Assert.assertTrue(commentService.deleteComment(commentId));
+    public void testDeleteComment() throws ServiceException, DaoException {
+        commentService.deleteComment(commentId);
         Mockito.verify(commentDao).delete(commentId);
+    }
+
+    @Test
+    public void testFindNewsComments() throws ServiceException, DaoException {
+        List<Comment> comments = new ArrayList<>();
+        comments.add(new Comment(commentId, commentText));
+        Mockito.when(commentDao.selectForNews(commentId)).thenReturn(comments);
+        Assert.assertEquals(comments, commentService.findCommentForNews(commentId));
+        Mockito.verify(commentDao).selectForNews(commentId);
+    }
+
+    @Test
+    public void testDeleteNewsComments() throws ServiceException, DaoException {
+        commentService.deleteCommentsForNews(commentId);
+        Mockito.verify(commentDao).deleteForNews(commentId);
     }
 }

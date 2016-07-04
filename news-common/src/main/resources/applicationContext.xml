@@ -16,17 +16,13 @@
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="springDataSource"/>
     </bean>
-
     <bean id="springDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="url" value="${url}" />
         <property name="driverClassName" value="${driverClassName}" />
         <property name="username" value="${username}" />
         <property name="password" value="${password}" />
         <property name="initialSize" value="${initialSize}" />
-
-
     </bean>
-
     <bean id="tagDao" class="by.epam.news.dao.impl.TagDaoImpl">
         <property name="dataSource" ref="springDataSource"/>
     </bean>
@@ -51,8 +47,11 @@
     </bean>
     <bean id="newsService" class="by.epam.news.service.impl.NewsServiceImpl">
         <property name="newsDao" ref="newsDao"/>
-        <property name="commentDao" ref="commentDao"/>
-        <property name="tagDao" ref="tagDao"/>
-        <property name="authorDao" ref="authorDao"/>
+    </bean>
+    <bean id="newsServiceFacade" class="by.epam.news.service.impl.NewsServiceFacadeImpl">
+        <property name="authorService" ref="authorService"/>
+        <property name="commentService" ref="commentService"/>
+        <property name="newsService" ref="newsService"/>
+        <property name="tagService" ref="tagService"/>
     </bean>
 </beans>

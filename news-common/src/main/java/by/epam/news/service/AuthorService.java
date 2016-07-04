@@ -1,6 +1,7 @@
 package by.epam.news.service;
 
 import by.epam.news.domain.Author;
+import org.hibernate.service.Service;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface AuthorService {
      * @return true if action succeeded
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    boolean markExpired(Long authorId) throws ServiceException;
+    void markExpired(Long authorId) throws ServiceException;
 
     /**
      * Retrieves an author by a given id
@@ -45,5 +46,28 @@ public interface AuthorService {
      * @return true if update succeeded
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    boolean updateAuthor(Author author) throws ServiceException;
+    void updateAuthor(Author author) throws ServiceException;
+
+    /**
+     * Finds all authors for a given news message
+     * @param newsId id of the news message
+     * @return list of news authors
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    List<Author> findNewsAuthors(Long newsId) throws ServiceException;
+
+    /**
+     * Unlinks all authors from a given news message
+     * @param newsId id of the news message
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    void unlinkAllAuthorsFromNews(Long newsId) throws ServiceException;
+
+    /**
+     * Links an author to a news message
+     * @param newsId id of the news message
+     * @param authorId id of the author
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    void linkAuthorToNews(Long newsId, Long authorId) throws ServiceException;
 }

@@ -25,9 +25,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public boolean markExpired(Long authorId) throws ServiceException {
+    public void markExpired(Long authorId) throws ServiceException {
         try {
-            return authorDao.updateExpired(authorId);
+            authorDao.updateExpired(authorId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -57,9 +57,36 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public boolean updateAuthor(Author author) throws ServiceException {
+    public void updateAuthor(Author author) throws ServiceException {
         try {
-            return authorDao.update(author);
+           authorDao.update(author);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Author> findNewsAuthors(Long newsId) throws ServiceException {
+        try {
+            return authorDao.selectForNews(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void unlinkAllAuthorsFromNews(Long newsId) throws ServiceException {
+        try {
+            authorDao.unlinkAllAuthors(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void linkAuthorToNews(Long newsId, Long authorId) throws ServiceException {
+        try {
+            authorDao.linkAuthorNews(newsId, authorId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

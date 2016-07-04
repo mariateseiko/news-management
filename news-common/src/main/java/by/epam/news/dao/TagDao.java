@@ -29,4 +29,20 @@ public interface TagDao extends GenericDao<Long, Tag> {
      * @throws DaoException if exception occurred on the current level
      */
     void delete(Long tagId) throws DaoException;
+
+    /**
+     * Links a tag to a news message
+     * @param newsId id of the news
+     * @param tagId id of the tag
+     * @return true if successfully linked
+     * @throws DaoException if exception occurred on the current level
+     */
+    void linkTagNews(Long newsId, Long tagId) throws DaoException;
+
+    /**
+     * Unlinks all tags from a news messages
+     * @param newsId id of the news
+     * @throws DaoException if exception occurred on the current level
+     */
+    void unlinkAllTags(Long newsId) throws DaoException;
 }

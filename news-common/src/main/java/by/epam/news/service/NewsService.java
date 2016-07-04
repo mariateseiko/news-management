@@ -3,6 +3,7 @@ package by.epam.news.service;
 import by.epam.news.domain.News;
 import by.epam.news.domain.NewsDTO;
 import by.epam.news.domain.SearchCriteria;
+import org.hibernate.service.Service;
 
 import java.util.List;
 
@@ -18,76 +19,49 @@ public interface NewsService {
     Integer countNews() throws ServiceException;
 
     /**
-     * Adds a news message with tags and author to the system
-     * @param newsDTO transfer object containing a news message, author and tags
-     * @return generated id of the inserted news
+     * Deletes a single news message
+     * @param newsId id if the news message to delete
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    Long addNews(NewsDTO newsDTO) throws ServiceException;
+    void deleteNews(Long newsId) throws ServiceException;
 
     /**
-     * Retrieves a transfer object with a news message, author, tags and comments by its id
-     * @param newsId id of the news message to retrieve
-     * @return transfer object containing a news message, author, comments and tags
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    NewsDTO findById(Long newsId) throws ServiceException;
-
-    /**
-     * Retrieves a list of all news messages with tags and authors, sorted by comments count
-     * @return list of all news
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    List<NewsDTO> findAllNews(Long page, Long limit) throws ServiceException;
-
-    /**
-     * Retrieves a list of all news messages by a given author
-     * with tags and authors, sorted by comments count
-     * @return list of all author's news
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    List<NewsDTO> findNewsByAuthor(Long authorId) throws ServiceException;
-
-    /**
-     * Deletes a news message with its comments
-     * @param newsId id of the news message to delete
-     * @return true if successfully deleted
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    boolean deleteNews(Long newsId) throws ServiceException;
-
-    /**
-     * Adds new tags to the news message
-     * @param newsId id of the news message to edit
-     * @param tagsId tags list of tags ids to add
-     * @return true id successfully added
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    boolean addTagsToNews(Long newsId, List<Long> tagsId) throws ServiceException;
-
-    /**
-     * Removes a tag from a news message
-     * @param newsId id of the news to delete tag from
-     * @param tagId id of the tag to delete
-     * @return if successfully deleted
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    boolean deleteTagFromNews(Long newsId, Long tagId) throws ServiceException;
-
-    /**
-     * Updates a news message
-     * @param news updated news entity with an id
-     * @return true if successfully updated
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    boolean updateNews(News news) throws ServiceException;
-
-    /**
-     * Retrieves a list of transfer objects containing news messages with authors, tags, comments
-     * that match the search criteria
+     * Finds a list of news according to search criteria
      * @param searchCriteria search criteria with tags and authors
-     * @return a list of matching news
+     * @return list of news corresponding to the search criteria
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    List<NewsDTO> findBySearchCriteria(SearchCriteria searchCriteria) throws ServiceException;
+    List<News> findNewsBySearchCriteria(SearchCriteria searchCriteria) throws ServiceException;
+
+    /**
+     * Finds a news message by a given id
+     * @param newsId id of the news message
+     * @return a news object
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    News findNewsById(Long newsId) throws ServiceException;
+
+    /**
+     * Finds all news sorted by comment count for a given page according to a limit
+     * @param page page number
+     * @param limit max number of news on the page
+     * @return a list of news
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    List<News> findAllNews(Long page, Long limit) throws ServiceException;
+
+    /**
+     * Adds a new news message
+     * @param news news message to add
+     * @return generated id of the inserted news message
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    Long addNews(News news) throws ServiceException;
+
+    /**
+     * Updates a news entity
+     * @param news news entity with a specified id and updated information
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    void updateNews(News news) throws ServiceException;
 }

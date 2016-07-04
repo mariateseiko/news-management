@@ -6,6 +6,8 @@ import by.epam.news.domain.Comment;
 import by.epam.news.service.CommentService;
 import by.epam.news.service.ServiceException;
 
+import java.util.List;
+
 public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
 
@@ -23,9 +25,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean deleteComment(Long commentId) throws ServiceException {
+    public void deleteComment(Long commentId) throws ServiceException {
         try {
-            return commentDao.delete(commentId);
+            commentDao.delete(commentId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -40,4 +42,21 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    @Override
+    public void deleteCommentsForNews(Long newsId) throws ServiceException {
+        try {
+            commentDao.deleteForNews(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Comment> findCommentForNews(Long newsId) throws ServiceException {
+        try {
+            return commentDao.selectForNews(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 }
