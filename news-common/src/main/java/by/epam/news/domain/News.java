@@ -13,6 +13,8 @@ public class News {
     private String fullText;
     private Date creationDate;
     private Date modificationDate;
+    private Long nextId;
+    private Long previousId;
 
     public News() {}
 
@@ -68,5 +70,21 @@ public class News {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    public Long getNextId() {
+        return nextId;
+    }
+
+    public void setNextId(Long nextId) {
+        this.nextId = nextId;
+    }
+
+    public Long getPreviousId() {
+        return previousId;
+    }
+
+    public void setPreviousId(Long previousId) {
+        this.previousId = previousId;
     }
 }

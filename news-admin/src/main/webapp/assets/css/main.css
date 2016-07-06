@@ -55,6 +55,7 @@
 .filter {
     text-align: center;
     margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .dropdown button {
@@ -74,7 +75,7 @@
 }
 
 .author {
-    margin-left: 10%;
+    margin-left: 15px;
 }
 
 .news-short {
@@ -96,7 +97,7 @@
 }
 
 .news {
-    margin-bottom: 30px;
+    margin-bottom: 70px;
 }
 
 .comment {
@@ -131,3 +132,62 @@ ul {
     margin: 0;
     padding: 0;
 }
+
+.float-label {
+    float: left;
+    margin-right: 30px;
+}
+.float-input {
+    width: 33%;
+
+    margin-right: 30px;
+}
+
+.div-link {
+    text-decoration: underline;
+    color: #1f1f7a;
+    cursor: pointer;
+}
+.info-list input[type="submit"], input[type="button"] {
+    background: none;
+    border: none;
+    color: #1f1f7a;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    height: 20px;
+}
+
+.info-label {
+    display: inline-block;
+    text-align: right;
+    width: 140px;
+}
+
+.edit-info-label {
+    display: inline-block;
+    text-align: right;
+}
+
+[id^="edit-panel-"] {
+    display: inline-block;
+}
+
+.add {
+    margin-left: 15px;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.add-area {
+    margin-left: 15px;
+    width: 80%;
+    margin-bottom: 20px;
+    vertical-align: middle;
+    resize: vertical;
+}
+
+.creation-date {
+    width: auto;
+}
+
