@@ -1,10 +1,7 @@
 package by.epam.news.controller;
 
 import by.epam.news.domain.*;
-import by.epam.news.service.AuthorService;
-import by.epam.news.service.NewsService;
-import by.epam.news.service.ServiceException;
-import by.epam.news.service.TagService;
+import by.epam.news.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +17,7 @@ import java.util.List;
 @RequestMapping(value="/news")
 public class NewsController {
     @Autowired
-    private NewsService newsService;
+    private NewsServiceFacade newsServiceFacade;
     @Autowired
     private AuthorService authorService;
     @Autowired
@@ -44,7 +41,7 @@ public class NewsController {
 
     @RequestMapping(value="/message/{newsId}")
     public String viewMessage(Model model, @PathVariable("newsId") Long newsId) throws ServiceException {
-        NewsDTO newsDTO = newsService.findById(newsId);
+        NewsDTO newsDTO = newsServiceFacade.findById(newsId);
         model.addAttribute("newsDTO", newsDTO);
         model.addAttribute("comment", new Comment());
         return "newsMessage";
@@ -52,7 +49,7 @@ public class NewsController {
 
     @RequestMapping(value = "/list/{page}")
     public String viewList(Model model, @PathVariable("page") Long page) throws ServiceException {
-        List<NewsDTO> newsDTOList = newsService.findAllNews(page, newsLimitPerPage);
+        List<NewsDTO> newsDTOList = newsServiceFacade.findAllNews(page, newsLimitPerPage);
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
         model.addAttribute("newsDTOList", newsDTOList);
@@ -71,10 +68,20 @@ public class NewsController {
         return "addNews";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String addNews(@ModelAttribute("newsDTO") NewsDTO newsDTO,
                           BindingResult result, ModelMap model) throws ServiceException {
-        Long newsId = newsService.addNews(newsDTO);
-        return "redirect:/message/" + newsId;
+        Long newsId = newsServiceFacade.saveNews(newsDTO);
+        return "redirect:/news/message/" + newsId;
+    }
+
+    @RequestMapping(value = "/edit/{newsId}", method = RequestMethod.GET)
+    public String viewEditNews(Model model, @PathVariable("newsId") Long newsId) throws ServiceException {
+        List<Author> authors = authorService.findNotExpiredAuthors();
+        List<Tag> tags = tagService.findAll();
+        model.addAttribute("newsDTO", newsServiceFacade.findById(newsId));
+        model.addAttribute("authors", authors);
+        model.addAttribute("tags", tags);
+        return "addNews";
     }
 }

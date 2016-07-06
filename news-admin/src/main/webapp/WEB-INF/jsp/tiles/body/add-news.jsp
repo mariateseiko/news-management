@@ -1,10 +1,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
-    <c:url var="newsUrl" value="/news/add"/>
+    <c:url var="newsUrl" value="/news/save"/>
     <form:form action="${newsUrl}" method="post" modelAttribute="newsDTO" class="add-form">
+        <form:hidden path="news.id"/>
         <div class="info-label">Title:</div>
-        <form:input path="news.title" class="float-input add"/>
+        <form:input path="news.title" class="float-input add" />
             <br/>
         <!--<div class="info-label">Date:</div>
         <form:input path="news.creationDate" class="float-input add creation-date" disabled="true"
