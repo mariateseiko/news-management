@@ -10,6 +10,7 @@ public class NewsDTO implements Serializable {
     private List<Tag> tags;
     private List<Long> tagsId;
 
+
     public NewsDTO() {}
 
     public NewsDTO(News news, Author author, List<Tag> tags) {
