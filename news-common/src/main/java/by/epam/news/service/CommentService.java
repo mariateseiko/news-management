@@ -46,4 +46,12 @@ public interface CommentService {
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
     List<Comment> findCommentForNews(Long newsId) throws ServiceException;
+
+    /**
+     * Defines total number of comments for a given news
+     * @param newsId id of the news message
+     * @return total count of comments
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    Integer countNewsComments(Long newsId) throws ServiceException;
 }
