@@ -122,6 +122,7 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
             Author author = authorService.findNewsAuthors(newsId).get(0);
             List<Tag> tags = tagService.findNewsTags(newsId);
             NewsDTO newsDTO = new NewsDTO(newsMessage, author, tags);
+            newsDTO.setCommentCount(commentService.countNewsComments(newsId));
             newsDTOList.add(newsDTO);
         }
         return newsDTOList;
