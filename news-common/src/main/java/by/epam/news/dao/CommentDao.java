@@ -1,6 +1,7 @@
 package by.epam.news.dao;
 
 import by.epam.news.domain.Comment;
+import by.epam.news.service.ServiceException;
 
 import java.util.List;
 
@@ -29,4 +30,12 @@ public interface CommentDao extends GenericDao<Long, Comment> {
      * @throws DaoException if exception occurred on the current level
      */
     void deleteForNews(Long newsId) throws DaoException;
+
+    /**
+     * Defines total number of comments for a given news
+     * @param newsId id of the news message
+     * @return total count of comments
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    Integer selectNewsCommentsCount(Long newsId) throws DaoException;
 }

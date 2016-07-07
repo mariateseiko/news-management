@@ -23,6 +23,7 @@ public class CommentDaoImpl implements CommentDao {
             "VALUES(?, ?, CURRENT_TIMESTAMP)";
     private static final String SQL_DELETE_COMMENT = "DELETE FROM comments WHERE comment_id=?";
     private static final String SQL_DELETE_COMMENTS_BY_NEWS_ID = "DELETE FROM comments WHERE news_id=?";
+    private static final String SQL_SELECT_NEWS_COMMENTS_COUNT = "SELECT COUNT(comment_id) AS commentCount FROM comments GROUP BY news_id HAVING news_id=?";
 
     private static final String NEWS_ID = "news_id";
     private static final String COMMENT_ID = "comment_id";
@@ -136,6 +137,26 @@ public class CommentDaoImpl implements CommentDao {
                 DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
+    }
+
+    @Override
+    public Integer selectNewsCommentsCount(Long newsId) throws DaoException {
+        Integer count = 0;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_NEWS_COMMENTS_COUNT)) {
+            statement.setLong(1, newsId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt("commentCount");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Failed to select comments for news with id: " + newsId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
+        return count;
     }
 
     private Comment extractCommentFromResultSet(ResultSet resultSet) throws SQLException {

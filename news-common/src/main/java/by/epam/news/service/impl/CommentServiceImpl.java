@@ -59,4 +59,9 @@ public class CommentServiceImpl implements CommentService {
             throw new ServiceException(e);
         }
     }
+
+    @Override
+    public Integer countNewsComments(Long newsId) throws ServiceException {
+        return null;
+    }
 }

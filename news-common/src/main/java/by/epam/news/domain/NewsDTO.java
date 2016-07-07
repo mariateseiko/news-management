@@ -9,7 +9,7 @@ public class NewsDTO implements Serializable {
     private List<Comment> comments;
     private List<Tag> tags;
     private List<Long> tagsId;
-
+    private Integer commentCount;
 
     public NewsDTO() {}
 
@@ -64,5 +64,13 @@ public class NewsDTO implements Serializable {
 
     public void setTagsId(List<Long> tagsId) {
         this.tagsId = tagsId;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
     }
 }
