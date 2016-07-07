@@ -48,7 +48,7 @@ public class NewsController {
     }
 
     @RequestMapping(value = "/list/{page}")
-    public String viewList(Model model, @PathVariable("page") Long page) throws ServiceException {
+    public String viewList(Model model, @PathVariable("page")Long page) throws ServiceException {
         List<NewsDTO> newsDTOList = newsServiceFacade.findAllNews(page, newsLimitPerPage);
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();

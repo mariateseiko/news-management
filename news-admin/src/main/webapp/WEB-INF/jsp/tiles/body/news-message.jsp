@@ -31,4 +31,9 @@
         <br/>
         <input type="submit" value="Post" class="submit-button"/>
     </form:form>
+
+    <spring:url value="/news/message/${newsDTO.news.previousId}" var="prev"/>
+    <c:if test="${not empty newsDTO.news.previousId && newsDTO.news.previousId != 0}"><div class="link prev"><a href="${prev}">PREVIOUS</a></div></c:if>
+    <spring:url value="/news/message/${newsDTO.news.nextId}" var="next"/>
+    <c:if test="${not empty newsDTO.news.nextId && newsDTO.news.nextId != 0}"><div class="link prev next"><a href="${next}">NEXT</a></div></c:if>
 </div>

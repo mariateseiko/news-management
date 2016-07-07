@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="filter">
     <select>
         <c:forEach var="author" items="${authors}">
@@ -25,8 +26,9 @@
             <div class="news-short">
                 ${newsDTO.news.shortText}
             </div>
-            <div class="float-right link">View</div>
-            <div class="float-right comments">Comments(99)</div>
+            <spring:url value="/news/message/${newsDTO.news.id}" var="viewMessage"/>
+            <div class="float-right link"><a href="${viewMessage}">View</a></div>
+            <div class="float-right comments">Comments(${newsDTO.commentcount})</div>
             <div class="float-right tags">
                 <c:forEach var="tag" items="${newsDTO.tags}"><
                     ${tag.name}

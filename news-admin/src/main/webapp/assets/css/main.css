@@ -191,3 +191,12 @@ ul {
     width: auto;
 }
 
+.prev {
+    float: left;
+    position: absolute;
+    bottom: 50px;
+}
+
+.next {
+    right: 30px;
+}
