@@ -62,6 +62,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Integer countNewsComments(Long newsId) throws ServiceException {
-        return null;
+        try {
+            return commentDao.selectNewsCommentsCount(newsId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 }
