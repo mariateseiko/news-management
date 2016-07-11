@@ -13,6 +13,10 @@ public class Author {
 
     public Author() {}
 
+    public Author(Long id) {
+        this.id = id;
+    }
+
     public Author(Long id, String name, Timestamp expired) {
         this.expired = expired;
         this.id = id;

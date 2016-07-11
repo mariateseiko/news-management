@@ -7,29 +7,54 @@ import java.util.List;
  * order to match the criteria.
  */
 public class SearchCriteria {
-    private List<Long> tagsId;
-    private List<Long> authorsId;
+    private List<Tag> tags;
+    private List<Author> authors;
+    private Long page;
+    private Long limit;
 
     public SearchCriteria() {}
 
-    public SearchCriteria(List<Long> tagsId, List<Long> authorsId) {
-        this.tagsId = tagsId;
-        this.authorsId = authorsId;
+    public SearchCriteria(List<Tag> tags, List<Author> authors) {
+        this.tags = tags;
+        this.authors = authors;
     }
 
-    public List<Long> getTagsId() {
-        return tagsId;
+    public SearchCriteria(List<Tag> tags, List<Author> authors, Long page, Long limit) {
+        this.tags = tags;
+        this.authors = authors;
+        this.page = page;
+        this.limit = limit;
     }
 
-    public void setTagsId(List<Long> tagsId) {
-        this.tagsId = tagsId;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public List<Long> getAuthorsId() {
-        return authorsId;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
-    public void setAuthorsId(List<Long> authorsId) {
-        this.authorsId = authorsId;
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Long getPage() {
+        return page;
+    }
+
+    public void setPage(Long page) {
+        this.page = page;
+    }
+
+    public Long getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Long limit) {
+        this.limit = limit;
     }
 }

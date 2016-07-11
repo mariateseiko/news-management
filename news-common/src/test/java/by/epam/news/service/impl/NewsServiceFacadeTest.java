@@ -115,11 +115,11 @@ public class NewsServiceFacadeTest {
 
     @Test
     public void testFindBySearchCriteria() throws DaoException, ServiceException {
-        List<Long> authorsId = new ArrayList<>();
-        authorsId.add(id);
-        List<Long> tagsId = new ArrayList<>();
-        tagsId.add(id);
-        SearchCriteria searchCriteria = new SearchCriteria(authorsId, tagsId);
+        List<Tag> tags = new ArrayList<>();
+        List<Author> authors = new ArrayList<>();
+        tags.add(new Tag(id));
+        authors.add(new Author(id));
+        SearchCriteria searchCriteria = new SearchCriteria(tags, authors, id, id);
         List<News> newsList = new ArrayList<>();
         News news = new News(text, text, text);
         news.setId(id);
