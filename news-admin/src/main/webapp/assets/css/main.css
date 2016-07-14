@@ -200,3 +200,22 @@ ul {
 .next {
     right: 30px;
 }
+
+.active {
+    font-weight: bold;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+.pagination a:visited {
+    text-decoration: none;
+    color: black;
+}
+.pagination {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    width: auto;
+}

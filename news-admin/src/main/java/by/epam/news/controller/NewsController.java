@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,10 +20,13 @@ public class NewsController {
     @Autowired
     private NewsServiceFacade newsServiceFacade;
     @Autowired
+    private NewsService newsService;
+    @Autowired
     private AuthorService authorService;
     @Autowired
     private TagService tagService;
     private static final Long newsLimitPerPage = 3L;
+    private static final Long defaultPage = 1L;
 
     @InitBinder
     public void dataBinding(WebDataBinder binder) {
@@ -37,6 +41,15 @@ public class NewsController {
                 return null;
             }
         });
+        binder.registerCustomEditor(List.class, "authors", new CustomCollectionEditor(List.class) {
+            protected Object convertElement(Object element) {
+                if (element != null) {
+                    Long id = new Long((String)element);
+                    return new Author(id);
+                }
+                return null;
+            }
+        });
     }
 
     @RequestMapping(value="/message/{newsId}")
@@ -44,6 +57,7 @@ public class NewsController {
         NewsDTO newsDTO = newsServiceFacade.findById(newsId);
         model.addAttribute("newsDTO", newsDTO);
         model.addAttribute("comment", new Comment());
+
         return "newsMessage";
     }
 
@@ -52,10 +66,19 @@ public class NewsController {
         List<NewsDTO> newsDTOList = newsServiceFacade.findAllNews(page, newsLimitPerPage);
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
+        model.addAttribute("searchCriteria", new SearchCriteria());
         model.addAttribute("newsDTOList", newsDTOList);
-        model.addAttribute("authors", authors);
-        model.addAttribute("tags", tags);
+        model.addAttribute("allAuthors", authors);
+        model.addAttribute("allTags", tags);
+        model.addAttribute("numPages", newsService.countNews());
+        model.addAttribute("page", page);
+        model.addAttribute("selectedNews", new ArrayList<Long>());
         return "newsList";
+    }
+
+    @RequestMapping(value = "/list")
+    public String viewList(Model model) throws ServiceException {
+        return viewList(model, defaultPage);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -65,6 +88,8 @@ public class NewsController {
         model.addAttribute("newsDTO", new NewsDTO());
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
+        model.addAttribute("selectedNews", new ArrayList<Long>());
+
         return "addNews";
     }
 
@@ -83,5 +108,42 @@ public class NewsController {
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         return "addNews";
+    }
+
+    @RequestMapping(value="/filter", params = "page" , method = RequestMethod.GET)
+    public String viewFilteredNewsPages(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
+                                       @RequestParam(value = "page", required = false) Long page,
+                                       BindingResult result, ModelMap model) throws ServiceException {
+        searchCriteria.setPage(page);
+        searchCriteria.setLimit(newsLimitPerPage);
+        List<NewsDTO> newsDTOList = newsServiceFacade.findBySearchCriteria(searchCriteria);
+        List<Author> authors = authorService.findNotExpiredAuthors();
+        List<Tag> tags = tagService.findAll();
+        model.addAttribute("newsDTOList", newsDTOList);
+        model.addAttribute("searchCriteria", searchCriteria);
+        model.addAttribute("allAuthors", authors);
+        model.addAttribute("allTags", tags);
+        model.addAttribute("numPages", newsService.countNews());
+        model.addAttribute("filtered", true);
+        model.addAttribute("selectedNews", new ArrayList<Long>());
+        return "newsList";
+    }
+
+
+    @RequestMapping(value = "/filter", params = "reset", method = RequestMethod.GET)
+    public String resetFilteredNews(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
+                                   BindingResult result, ModelMap model) throws ServiceException {
+        return "redirect:/news/list/1";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteMultipleNews(@RequestParam(value = "selectedNews", required=false) Long[] selectedNews,
+                                     BindingResult result, ModelMap model) throws ServiceException {
+        if (selectedNews.length != 0) {
+            for (Long id: selectedNews) {
+                newsService.deleteNews(id);
+            }
+        }
+        return "redirect:/news/list/1";
     }
 }
