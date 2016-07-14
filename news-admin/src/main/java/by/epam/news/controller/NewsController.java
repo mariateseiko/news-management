@@ -124,7 +124,7 @@ public class NewsController {
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
         Long totalCount = newsService.countFilteredNews(searchCriteria);
-        totalPageNumber = totalCount % newsLimitPerPage;
+        totalPageNumber = totalCount / newsLimitPerPage;
         if (totalCount % newsLimitPerPage != 0) {
             totalPageNumber++;
         }

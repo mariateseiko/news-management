@@ -35,7 +35,6 @@
             <spring:url value="/news/edit/${newsDTO.news.id}" var="editMessage"/>
             <input class="float-right link" type = "checkbox" name = "selectedNews" value="${newsDTO.news.id}" />
             <div class="float-right link" ><a href="${editMessage}">Edit</a></div>
-            <%--<form:checkbox path="selectedNews" value="${newsDTO.news.id}"/>--%>
             <div class="float-right comments">Comments(${newsDTO.commentCount})</div>
             <div class="float-right tags">
                 <c:forEach var="tag" items="${newsDTO.tags}" varStatus="loop">
@@ -53,7 +52,6 @@
 <c:url value="/news/filter" var="newsFilters"/>
 <c:if test="${filtered}">
 <div class="pagination">
-    numPages:${numPages} pages:${page}
     <form:form action="${newsFilters}"  modelAttribute="searchCriteria" method="get" id="filter" >
         <div class="hidden">
             <form:select path="authors" modelAttribute="authors" multiple="1" id="authors" type="hidden">
