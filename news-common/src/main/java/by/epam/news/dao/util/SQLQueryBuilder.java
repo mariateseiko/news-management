@@ -56,12 +56,15 @@ public class SQLQueryBuilder {
         queryBuilder.append(GROUP_BY_CLAUSE);
         queryBuilder.append(ORDER_BY_CLAUSE);
         queryBuilder.append(CLOSING_BRACKET);
-        queryBuilder.append(WHERE_PAGE_CLAUSE);
+
         Long page = searchCriteria.getPage();
-        Long limit = searchCriteria.getLimit();
-        queryBuilder.append((page-1)*limit + 1);
-        queryBuilder.append(AND_CLAUSE);
-        queryBuilder.append(page*limit);
+        if (page != null) {
+            Long limit = searchCriteria.getLimit();
+            queryBuilder.append(WHERE_PAGE_CLAUSE);
+            queryBuilder.append((page - 1) * limit + 1);
+            queryBuilder.append(AND_CLAUSE);
+            queryBuilder.append(page * limit);
+        }
         return queryBuilder.toString();
     }
 

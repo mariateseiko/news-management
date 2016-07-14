@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 public class Author {
     private Long id;
-    private String Name;
+    private String name;
     private Timestamp expired;
 
     public Author() {}
@@ -20,7 +20,7 @@ public class Author {
     public Author(Long id, String name, Timestamp expired) {
         this.expired = expired;
         this.id = id;
-        Name = name;
+        this.name = name;
     }
 
     public Long getId() {
@@ -32,11 +32,11 @@ public class Author {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public Timestamp getExpired() {
@@ -50,20 +50,17 @@ public class Author {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Author)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Author author = (Author) o;
 
-        if (!id.equals(author.id)) return false;
-        if (!Name.equals(author.Name)) return false;
-        return !(expired != null ? !expired.equals(author.expired) : author.expired != null);
-
+        return id.equals(author.id);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + Name.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (expired != null ? expired.hashCode() : 0);
         return result;
     }

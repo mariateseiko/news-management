@@ -17,7 +17,9 @@ import java.util.List;
 
 public class NewsDaoImpl implements NewsDao {
     private DataSource dataSource;
-    private static final String SQL_SELECT_TOTAL_COUNT = "SELECT COUNT(news_id) AS total FROM news";
+    private static final String SQL_SELECT_TOTAL_COUNT = "SELECT COUNT(news.news_id) AS total FROM news";
+    private static final String SQL_SELECT_FILTERED_COUNT = "SELECT COUNT(news_id) AS total FROM (";
+
     private static final String SQL_SELECT_NEWS_BY_AUTHOR = "SELECT news.news_id, news.title, news.short_text, " +
             "news.full_text, news.creation_date, " +
             "modification_date FROM news " +
@@ -34,8 +36,6 @@ public class NewsDaoImpl implements NewsDao {
             "LEFT JOIN comments ON news.news_id = comments.news_id " +
             "GROUP BY news.news_id, news.title, news.short_text, news.full_text, " +
             "news.creation_date, news.modification_date) WHERE rn BETWEEN ? AND ?";
-    /*private static final String SQL_SELECT_NEWS_BY_ID = "SELECT news_id, title, short_text, full_text, creation_date, " +
-            "modification_date FROM news WHERE news_id=?";*/
     private static final String SQL_SELECT_NEWS_BY_ID = "SELECT news_id, title, short_text, " +
             "full_text, creation_date, modification_date, previd, nextid " +
             "FROM (SELECT news.news_id, news.title, news.short_text, news.full_text, " +
@@ -61,16 +61,40 @@ public class NewsDaoImpl implements NewsDao {
     }
 
     @Override
-    public Integer selectTotalCount() throws DaoException {
-        Integer totalCount = 0;
+    public Long selectTotalCount() throws DaoException {
+        Long totalCount = 0L;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement statement = connection.prepareStatement(SQL_SELECT_TOTAL_COUNT)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                totalCount = resultSet.getInt("total");
+                totalCount = resultSet.getLong("total");
             }
         } catch (SQLException e) {
             throw new DaoException("Failed to detect total count of all news", e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
+        }
+        return totalCount;
+    }
+
+    @Override
+    public Long selectFilteredCount(SearchCriteria searchCriteria) throws DaoException {
+        Long totalCount = 0L;
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        String fullStatement = SQL_SELECT_FILTERED_COUNT + SQLQueryBuilder.buildSearchQuery(searchCriteria) + ")";
+        try (PreparedStatement statement = connection.prepareStatement(fullStatement)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                totalCount = resultSet.getLong("total");
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Failed to detect total count of filtered news", e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
         }
         return totalCount;
     }
@@ -87,6 +111,10 @@ public class NewsDaoImpl implements NewsDao {
             }
         } catch (SQLException e) {
             throw new DaoException("Failed to select all news for author with newsId: " + authorId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
         }
         return newsList;
     }
@@ -106,6 +134,10 @@ public class NewsDaoImpl implements NewsDao {
                 }
             } catch (SQLException e) {
                 throw new DaoException("Failed to select news by newsId: " + newsId, e);
+            } finally {
+                if (connection != null) {
+                    DataSourceUtils.releaseConnection(connection, dataSource);
+                }
             }
             return news;
     }
@@ -179,7 +211,11 @@ public class NewsDaoImpl implements NewsDao {
                 newsList.add(extractNewsMessageFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select all news for page: " + page + " with limit " + limit, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
         }
         return newsList;
     }
@@ -195,7 +231,11 @@ public class NewsDaoImpl implements NewsDao {
                 newsList.add(extractNewsMessageFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            throw new DaoException("Failed to select news by search criteria", e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
         }
         return newsList;
     }

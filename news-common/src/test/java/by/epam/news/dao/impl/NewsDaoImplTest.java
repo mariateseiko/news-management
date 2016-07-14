@@ -40,7 +40,7 @@ public class NewsDaoImplTest {
 
     @Test
     public void testTotalCount() throws DaoException {
-        int totalCount = newsDao.selectTotalCount();
+        long totalCount = newsDao.selectTotalCount();
         Assert.assertTrue(totalCount > 0);
     }
 
@@ -125,5 +125,16 @@ public class NewsDaoImplTest {
         List<News> news = newsDao.selectBySearchCriteria(searchCriteria);
         Assert.assertTrue(news.size() > 0);
         Assert.assertEquals(expectedNewsId, news.get(0).getId());
+    }
+
+    @Test
+    public void testFilteredCount() throws DaoException {
+        Long authorId = 1L;
+        List<Author> authors = new ArrayList<>();
+        authors.add(new Author(authorId));
+        SearchCriteria searchCriteria = new SearchCriteria();
+        searchCriteria.setAuthors(authors);
+        long totalCount = newsDao.selectFilteredCount(searchCriteria);
+        Assert.assertEquals(1, totalCount );
     }
 }
