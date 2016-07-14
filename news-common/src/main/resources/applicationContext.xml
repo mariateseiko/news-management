@@ -35,6 +35,9 @@
     <bean id="newsDao" class="by.epam.news.dao.impl.NewsDaoImpl">
         <property name="dataSource" ref="springDataSource"/>
     </bean>
+    <bean id="userDao" class="by.epam.news.dao.impl.UserDaoImpl">
+        <property name="dataSource" ref="springDataSource"/>
+    </bean>
 
     <bean id="authorService" class="by.epam.news.service.impl.AuthorServiceImpl">
         <property name="authorDao" ref="authorDao"/>
@@ -47,6 +50,9 @@
     </bean>
     <bean id="newsService" class="by.epam.news.service.impl.NewsServiceImpl">
         <property name="newsDao" ref="newsDao"/>
+    </bean>
+    <bean id="userService" class="by.epam.news.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
     </bean>
     <bean id="newsServiceFacade" class="by.epam.news.service.impl.NewsServiceFacadeImpl">
         <property name="authorService" ref="authorService"/>
