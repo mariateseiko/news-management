@@ -19,9 +19,18 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Integer countNews() throws ServiceException {
+    public Long countNews() throws ServiceException {
         try {
             return newsDao.selectTotalCount();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public Long countFilteredNews(SearchCriteria searchCriteria) throws ServiceException {
+        try {
+            return newsDao.selectFilteredCount(searchCriteria);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

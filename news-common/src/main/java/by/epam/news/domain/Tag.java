@@ -41,9 +41,7 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        if (id != null ? !id.equals(tag.id) : tag.id != null) return false;
-        return !(name != null ? !name.equals(tag.name) : tag.name != null);
-
+        return id.equals(tag.id);
     }
 
     @Override

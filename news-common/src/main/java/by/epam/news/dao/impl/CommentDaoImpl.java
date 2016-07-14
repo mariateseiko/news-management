@@ -84,6 +84,10 @@ public class CommentDaoImpl implements CommentDao {
             }
         } catch (SQLException e) {
             throw new DaoException("Failed to select comments for news with id: " + newsId, e);
+        } finally {
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
+            }
         }
         return comments;
     }

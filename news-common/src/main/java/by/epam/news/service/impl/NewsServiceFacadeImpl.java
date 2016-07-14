@@ -32,7 +32,6 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
-    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public Long saveNews(NewsDTO newsDTO) throws ServiceException {
         Long newsId = newsDTO.getNews().getId();
         if (newsId == null) {
@@ -53,7 +52,6 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
-    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public NewsDTO findById(Long newsId) throws ServiceException {
         NewsDTO newsDTO = null;
         News news = newsService.findNewsById(newsId);
@@ -67,7 +65,6 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
-    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public List<NewsDTO> findAllNews(Long page, Long limit) throws ServiceException {
         List<NewsDTO> newsDTOList;
         List<News> news = newsService.findAllNews(page, limit);
@@ -79,27 +76,7 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
         return newsDTOList;
     }
 
-    //TODO check whether necessary
-    /*
     @Override
-    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
-    public List<NewsDTO> findNewsByAuthor(Long authorId) throws ServiceException {
-        List<NewsDTO> newsDTOList;
-        try {
-            List<News> news = newsDao.selectNewsByAuthor(authorId);
-            if (news.size() > 0) {
-                newsDTOList = createNewsDTOList(news);
-            } else {
-                newsDTOList = null;
-            }
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-        return newsDTOList;
-    }*/
-
-    @Override
-    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public void deleteNews(Long newsId) throws ServiceException {
         commentService.deleteCommentsForNews(newsId);
         newsService.deleteNews(newsId);

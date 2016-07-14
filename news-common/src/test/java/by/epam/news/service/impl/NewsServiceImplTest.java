@@ -13,8 +13,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyObject;
 
 public class NewsServiceImplTest {
     @Mock
@@ -33,10 +35,18 @@ public class NewsServiceImplTest {
 
     @Test
     public void testCountNews() throws DaoException, ServiceException {
-        Integer totalNewsCount = 5;
+        Long totalNewsCount = 5L;
         Mockito.when(newsDao.selectTotalCount()).thenReturn(totalNewsCount);
         Assert.assertEquals(totalNewsCount, newsService.countNews());
         Mockito.verify(newsDao).selectTotalCount();
+    }
+
+    @Test
+    public void testFilteredNews() throws DaoException, ServiceException {
+        Long totalNewsCount = 5L;
+        Mockito.when(newsDao.selectFilteredCount(anyObject())).thenReturn(totalNewsCount);
+        Assert.assertEquals(totalNewsCount, newsService.countFilteredNews(anyObject()));
+        Mockito.verify(newsDao).selectFilteredCount(anyObject());
     }
 
     @Test
