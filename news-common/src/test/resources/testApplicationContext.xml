@@ -55,6 +55,10 @@
     <bean id="newsDao" class="by.epam.news.dao.impl.NewsDaoImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <bean id="userDao" class="by.epam.news.dao.impl.UserDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
 
 </beans>
+

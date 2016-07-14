@@ -1,10 +1,10 @@
 package by.epam.news.service.impl;
 
-import by.epam.news.dao.*;
 import by.epam.news.domain.*;
 import by.epam.news.service.*;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
+    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public Long saveNews(NewsDTO newsDTO) throws ServiceException {
         Long newsId = newsDTO.getNews().getId();
         if (newsId == null) {
@@ -52,6 +53,7 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
+    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public NewsDTO findById(Long newsId) throws ServiceException {
         NewsDTO newsDTO = null;
         News news = newsService.findNewsById(newsId);
@@ -65,6 +67,7 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
+    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public List<NewsDTO> findAllNews(Long page, Long limit) throws ServiceException {
         List<NewsDTO> newsDTOList;
         List<News> news = newsService.findAllNews(page, limit);
@@ -77,12 +80,14 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
     }
 
     @Override
+    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public void deleteNews(Long newsId) throws ServiceException {
         commentService.deleteCommentsForNews(newsId);
         newsService.deleteNews(newsId);
     }
 
     @Override
+    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     public List<NewsDTO> findBySearchCriteria(SearchCriteria searchCriteria) throws ServiceException {
         List<NewsDTO> newsDTOList = null;
         List<News> news = newsService.findNewsBySearchCriteria(searchCriteria);
@@ -92,6 +97,7 @@ public class NewsServiceFacadeImpl implements NewsServiceFacade {
         return newsDTOList;
     }
 
+    @Transactional(rollbackFor = ServiceException.class, propagation = Propagation.REQUIRED)
     private List<NewsDTO> createNewsDTOList(List<News> news) throws ServiceException {
         List<NewsDTO> newsDTOList = new ArrayList<>();
         for (News newsMessage: news) {

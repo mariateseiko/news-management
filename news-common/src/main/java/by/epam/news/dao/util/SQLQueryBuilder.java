@@ -20,8 +20,6 @@ public class SQLQueryBuilder {
     private static final String GROUP_BY_CLAUSE = "GROUP BY news.news_id, news.title, " +
             "news.short_text, news.full_text, " +
             "news.creation_date, news.modification_date ";
-    private static final String ORDER_BY_CLAUSE = "ORDER BY COUNT(comment_id) ";
-
     private static final String WHERE_TAG_CLAUSE = "news_tags.tag_id IN (";
     private static final String WHERE_AUTHOR_CLAUSE = "WHERE news_authors.author_id IN (";
     private static final String WHERE_PAGE_CLAUSE = "WHERE rn BETWEEN ";
@@ -54,12 +52,11 @@ public class SQLQueryBuilder {
         queryBuilder.delete(queryBuilder.length() - 2, queryBuilder.length());
         queryBuilder.append(CLOSING_BRACKET);
         queryBuilder.append(GROUP_BY_CLAUSE);
-        queryBuilder.append(ORDER_BY_CLAUSE);
         queryBuilder.append(CLOSING_BRACKET);
 
         Long page = searchCriteria.getPage();
-        if (page != null) {
-            Long limit = searchCriteria.getLimit();
+        Long limit = searchCriteria.getLimit();
+        if (page != null && limit != null) {
             queryBuilder.append(WHERE_PAGE_CLAUSE);
             queryBuilder.append((page - 1) * limit + 1);
             queryBuilder.append(AND_CLAUSE);
