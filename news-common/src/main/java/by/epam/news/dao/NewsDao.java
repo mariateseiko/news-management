@@ -14,7 +14,14 @@ public interface NewsDao extends GenericDao<Long, News> {
      * @return total count of news
      * @throws DaoException if exception occurred on the current level
      */
-    Integer selectTotalCount() throws DaoException;
+    Long selectTotalCount() throws DaoException;
+
+    /**
+     * Counts filtered news messages by search criteria
+     * @return total count of filtered news
+     * @throws DaoException if exception occurred on the current level
+     */
+    Long selectFilteredCount(SearchCriteria searchCriteria) throws DaoException;
 
     /**
      * Retrieves  a list of news by a given author

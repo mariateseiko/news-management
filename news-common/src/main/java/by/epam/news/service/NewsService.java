@@ -16,7 +16,14 @@ public interface NewsService {
      * @return total count of news in the system
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    Integer countNews() throws ServiceException;
+    Long countNews() throws ServiceException;
+
+    /**
+     * Counts news filtered by search criteria
+     * @return total count of news in the system
+     * @throws ServiceException if exception occurred on the service or any underlying level
+     */
+    Long countFilteredNews(SearchCriteria searchCriteria) throws ServiceException;
 
     /**
      * Deletes a single news message

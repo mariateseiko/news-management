@@ -44,12 +44,4 @@ public interface NewsServiceFacade {
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
     List<NewsDTO> findAllNews(Long page, Long limit) throws ServiceException;
-
-    /**
-     * Retrieves a list of all news messages by a given author
-     * with tags and authors, sorted by comments count
-     * @return list of all author's news
-     * @throws ServiceException if exception occurred on the service or any underlying level
-     */
-    /*List<NewsDTO> findNewsByAuthor(Long authorId) throws ServiceException;*/
 }
