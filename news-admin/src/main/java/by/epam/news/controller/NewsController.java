@@ -66,11 +66,16 @@ public class NewsController {
         List<NewsDTO> newsDTOList = newsServiceFacade.findAllNews(page, newsLimitPerPage);
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
+        Long totalCount = newsService.countNews();
+        Long totalPageNumber = totalCount % newsLimitPerPage;
+        if (totalCount % newsLimitPerPage != 0) {
+            totalPageNumber++;
+        }
         model.addAttribute("searchCriteria", new SearchCriteria());
         model.addAttribute("newsDTOList", newsDTOList);
         model.addAttribute("allAuthors", authors);
         model.addAttribute("allTags", tags);
-        model.addAttribute("numPages", newsService.countNews());
+        model.addAttribute("numPages", totalPageNumber);
         model.addAttribute("page", page);
         model.addAttribute("selectedNews", new ArrayList<Long>());
         return "newsList";
@@ -112,18 +117,25 @@ public class NewsController {
 
     @RequestMapping(value="/filter", params = "page" , method = RequestMethod.GET)
     public String viewFilteredNewsPages(@ModelAttribute("searchCriteria") SearchCriteria searchCriteria,
-                                       @RequestParam(value = "page", required = false) Long page,
+                                       @RequestParam(value = "page") Long page,
                                        BindingResult result, ModelMap model) throws ServiceException {
+        Long totalPageNumber;
+
+        List<Author> authors = authorService.findNotExpiredAuthors();
+        List<Tag> tags = tagService.findAll();
+        Long totalCount = newsService.countFilteredNews(searchCriteria);
+        totalPageNumber = totalCount % newsLimitPerPage;
+        if (totalCount % newsLimitPerPage != 0) {
+            totalPageNumber++;
+        }
         searchCriteria.setPage(page);
         searchCriteria.setLimit(newsLimitPerPage);
         List<NewsDTO> newsDTOList = newsServiceFacade.findBySearchCriteria(searchCriteria);
-        List<Author> authors = authorService.findNotExpiredAuthors();
-        List<Tag> tags = tagService.findAll();
         model.addAttribute("newsDTOList", newsDTOList);
         model.addAttribute("searchCriteria", searchCriteria);
         model.addAttribute("allAuthors", authors);
         model.addAttribute("allTags", tags);
-        model.addAttribute("numPages", newsService.countNews());
+        model.addAttribute("numPages", totalPageNumber);
         model.addAttribute("filtered", true);
         model.addAttribute("selectedNews", new ArrayList<Long>());
         return "newsList";

@@ -45,12 +45,15 @@
             </div>
         </div>
     </c:forEach>
-        <button type="submit" class="submit-button" style="margin-right: 15px">Delete</button>
+        <c:if test="${newsDTOList.size() > 0}">
+            <button type="submit" class="submit-button" style="margin-right: 15px">Delete</button>
+        </c:if>
     </form:form>
 </div>
 <c:url value="/news/filter" var="newsFilters"/>
 <c:if test="${filtered}">
 <div class="pagination">
+    numPages:${numPages} pages:${page}
     <form:form action="${newsFilters}"  modelAttribute="searchCriteria" method="get" id="filter" >
         <div class="hidden">
             <form:select path="authors" modelAttribute="authors" multiple="1" id="authors" type="hidden">
