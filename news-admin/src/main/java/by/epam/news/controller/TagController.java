@@ -1,6 +1,5 @@
 package by.epam.news.controller;
 
-import by.epam.news.domain.Author;
 import by.epam.news.domain.Tag;
 import by.epam.news.service.ServiceException;
 import by.epam.news.service.TagService;

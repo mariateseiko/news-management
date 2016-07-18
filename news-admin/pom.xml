@@ -56,11 +56,6 @@
             <version>1.2</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.ver}</version>
-        </dependency>
-        <dependency>
             <groupId>by.epam.news</groupId>
             <artifactId>news-common</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -80,21 +75,7 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.ver}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>4.1.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>4.1.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>4.1.1.RELEASE</version>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>

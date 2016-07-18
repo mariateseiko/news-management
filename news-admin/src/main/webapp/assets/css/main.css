@@ -6,7 +6,7 @@
 .lang-panel {
     float: right;
     position: relative;
-    top: 35px;
+    top: 20px;
 }
 
 .header {
@@ -218,4 +218,12 @@ ul {
     bottom: 50px;
     left: 50%;
     width: auto;
+}
+
+.logout {
+    margin-left: 5px;
+}
+
+.lang {
+    margin-right: 5px;
 }

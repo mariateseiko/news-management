@@ -6,9 +6,10 @@
     <mvc:annotation-driven />
     <context:component-scan base-package="by.epam.news.*" annotation-config="true"/>
     <import resource="classpath:applicationContext.xml" />
+    <import resource="classpath:security.xml" />
+
     <tx:annotation-driven  />
     <mvc:resources mapping="/assets/**" location="/assets/"/>
-
 
     <bean id="localeResolver"
           class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
