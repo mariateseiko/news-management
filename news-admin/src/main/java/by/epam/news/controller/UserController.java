@@ -10,19 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        return "redirect:/loginPage";
+        return "redirect:/news/list/1";
     }
 
     @RequestMapping(value = "/loginPage")
     public String loginUser(Model model, @RequestParam(value = "error",required = false) String error,
                             @RequestParam(value = "badcredentials",required = false) String badcredentials) {
         if (error != null) {
-            model.addAttribute("error", error);
-        }
-        if (badcredentials != null) {
-            model.addAttribute("error", badcredentials);
+            model.addAttribute("errorMessage", "invalid.login.password");
         }
         return "login";
     }
 
+    @RequestMapping(value = "/error")
+    public String accessDenied(Model model, @RequestParam(value = "code") Integer code) {
+        model.addAttribute("errorCode", code);
+        model.addAttribute("errorMessage", "error."+code);
+        return "error";
+    }
 }

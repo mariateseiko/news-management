@@ -227,3 +227,27 @@ ul {
 .lang {
     margin-right: 5px;
 }
+
+.error {
+    text-align:center;
+    color: red;
+}
+
+.errorCode {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.errorMessage {
+    font-size: 30px;
+}
+
+.button-link {
+    background: none;
+    border: none;
+    color: #1f1f7a;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    height: 20px;
+}

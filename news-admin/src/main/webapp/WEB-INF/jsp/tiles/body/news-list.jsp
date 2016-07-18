@@ -18,6 +18,7 @@
     </div>
 </form:form>
 <div class="content">
+    <c:if test="${not empty emptyList}"><div class="error"><spring:message code="${emptyList}"/></div></c:if>
     <form:form action="${newsDelete}"  method="post">
     <c:forEach var="newsDTO" items="${newsDTOList}">
         <div class="news">
@@ -64,11 +65,13 @@
             <c:if test="${page > 2}">
                 <form:button name="page" value="1" type="submit">First</form:button>
             </c:if>
-            <c:if test="${numPages>1}">
-                <c:if test="${page > 1}">
+            <c:if test="${numPages > 1}">
+                <c:if test="${page>1 && page<=numPages}">
                     <form:button name="page" value="${page-1}" type="submit">Prev</form:button>
                 </c:if>
-                <form:button name="page" value="${page}" type="submit">${page}</form:button>
+                <c:if test="${page>0 && page<=numPages}">
+                    <form:button name="page" value="${page}" type="submit">${page}</form:button>
+                </c:if>
                 <c:if test="${numPages>page}">
                     <form:button name="page" value="${page+1}" type="submit">Next</form:button>
                     <c:if test="${numPages>page+1}">
@@ -88,18 +91,20 @@
             <button><a href="${first}">First</a></button>
         </c:if>
         <c:if test="${numPages>1}">
-            <c:if test="${page > 1}">
+            <c:if test="${page > 1 && page <= numPages}">
                 <c:url value="/news/list/${page-1}" var="prev"/>
                 <button><a href="${prev}">Prev</a></button>
             </c:if>
             <c:url value="/news/list/${page}" var="current"/>
-            <button><a href="${current}">${page}</a></button>
+            <c:if test="${page>0 && page <= numPages}">
+                <button><a href="${current}">${page}</a></button>
+            </c:if>
             <c:if test="${numPages>page}">
                 <c:url value="/news/list/${page+1}" var="next"/>
                 <button><a href="${next}">Next</a></button>
                 <c:if test="${numPages>page+1}">
                     <c:url value="/news/list/${numPages}" var="last"/>
-                    <button><a href="${current}">Last(${numPages})</a></button>
+                    <button><a href="${last}">Last(${numPages})</a></button>
                 </c:if>
             </c:if>
         </c:if>
@@ -109,5 +114,5 @@
 <script src=<c:url value="/assets/js/multiple-select.js"/>></script>
 <script>
     $('#dropdown').multipleSelect();
-    $(".hidden > select").hide();//for hide
+    $(".hidden > select").hide();
 </script>

@@ -6,14 +6,15 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
     <security:http pattern="/assets/css/**" security="none"/>
     <security:http pattern="/assets/js/**" security="none"/>
-    <security:http auto-config="true" use-expressions="true" access-denied-page="/loginPage?error=norole">
+    <security:http auto-config="true" use-expressions="true" access-denied-page="/error?code=403">
         <security:form-login login-page="/loginPage"
                              username-parameter="username"
                              password-parameter="password"
                              default-target-url="/news/list/1"
                              always-use-default-target="true"
-                             authentication-failure-url="/loginPage?error=true"/>
+                             authentication-failure-url="/loginPage?error"/>
         <security:intercept-url pattern="/loginPage" access="permitAll"/>
+        <security:intercept-url pattern="/403" access="permitAll"/>
         <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
         <security:logout logout-success-url="/loginPage" delete-cookies="JSESSIONID"/>
     </security:http>

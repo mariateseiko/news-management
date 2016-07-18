@@ -55,6 +55,9 @@ public class NewsController {
     @RequestMapping(value="/message/{newsId}")
     public String viewMessage(Model model, @PathVariable("newsId") Long newsId) throws ServiceException {
         NewsDTO newsDTO = newsServiceFacade.findById(newsId);
+        if (newsDTO == null) {
+            return "redirect:/error?code=404";
+        }
         model.addAttribute("newsDTO", newsDTO);
         model.addAttribute("comment", new Comment());
 
@@ -63,11 +66,14 @@ public class NewsController {
 
     @RequestMapping(value = "/list/{page}")
     public String viewList(Model model, @PathVariable("page")Long page) throws ServiceException {
-        List<NewsDTO> newsDTOList = newsServiceFacade.findAllNews(page, newsLimitPerPage);
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
+        List<NewsDTO> newsDTOList = newsServiceFacade.findAllNews(page, newsLimitPerPage);
+        if (newsDTOList == null) {
+            model.addAttribute("emptyList", "error.page");
+        }
         Long totalCount = newsService.countNews();
-        Long totalPageNumber = totalCount % newsLimitPerPage;
+        Long totalPageNumber = totalCount / newsLimitPerPage;
         if (totalCount % newsLimitPerPage != 0) {
             totalPageNumber++;
         }
@@ -94,7 +100,6 @@ public class NewsController {
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         model.addAttribute("selectedNews", new ArrayList<Long>());
-
         return "addNews";
     }
 
@@ -109,10 +114,16 @@ public class NewsController {
     public String viewEditNews(Model model, @PathVariable("newsId") Long newsId) throws ServiceException {
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
-        model.addAttribute("newsDTO", newsServiceFacade.findById(newsId));
-        model.addAttribute("authors", authors);
-        model.addAttribute("tags", tags);
-        return "addNews";
+        NewsDTO newsDTO = newsServiceFacade.findById(newsId);
+        if (newsDTO != null) {
+            model.addAttribute("newsDTO", newsDTO);
+            model.addAttribute("authors", authors);
+            model.addAttribute("tags", tags);
+            return "addNews";
+        } else {
+            return "redirect:/error?code=404";
+        }
+
     }
 
     @RequestMapping(value="/filter", params = "page" , method = RequestMethod.GET)
@@ -131,6 +142,9 @@ public class NewsController {
         searchCriteria.setPage(page);
         searchCriteria.setLimit(newsLimitPerPage);
         List<NewsDTO> newsDTOList = newsServiceFacade.findBySearchCriteria(searchCriteria);
+        if (newsDTOList == null) {
+            model.addAttribute("emptyList", "error.page");
+        }
         model.addAttribute("newsDTOList", newsDTOList);
         model.addAttribute("searchCriteria", searchCriteria);
         model.addAttribute("allAuthors", authors);
