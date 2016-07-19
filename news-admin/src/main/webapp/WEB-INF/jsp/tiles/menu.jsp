@@ -3,13 +3,21 @@
 <div>
     <ul class="nav">
         <spring:url value="/news/list" var="newsList"/>
-        <li><a href="${newsList}">News List</a></li>
+        <li><a href="${newsList}">
+            <spring:message code="menu.newslist"/>
+        </a></li>
         <spring:url value="/news/add" var="newsAdd"/>
-        <li><a href="${newsAdd}">Add news</a></li>
+        <li><a href="${newsAdd}">
+            <spring:message code="menu.news.add"/>
+        </a></li>
         <spring:url value="/author/manage" var="authors"/>
-        <li><a href="${authors}">Add/Update Authors</a></li>
+        <li><a href="${authors}">
+            <spring:message code="menu.authors"/>
+        </a></li>
         <spring:url value="/tag/manage" var="tags"/>
-        <li><a href="${tags}">Add/Update Tags</a></li>
+        <li><a href="${tags}">
+            <spring:message code="menu.tags"/>
+        </a></li>
     </ul>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>

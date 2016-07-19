@@ -13,8 +13,8 @@
         <form:select id="dropdown" modelAttribute="tags" class="dropdown"  multiple="multiple" path="tags">
             <form:options items="${allTags}"  itemValue="id" itemLabel="name"/>
         </form:select>
-        <form:button name="page" value="1" type="submit">Filter</form:button>
-        <input type="submit" name="reset" value="Reset"/>
+        <form:button name="page" value="1" type="submit"><spring:message code="label.filter"/></form:button>
+        <form:button type="submit" name="reset" value="reset"><spring:message code="label.reset"/></form:button>
     </div>
 </form:form>
 <div class="content">
@@ -26,7 +26,7 @@
             <div class="float-left" style="font-weight: bold">
                 <a href="${viewMessage}">${newsDTO.news.title}</a>
             </div>
-            <div class="float-left author">by ${newsDTO.author.name}</div>
+            <div class="float-left author"><spring:message code="label.by"/> ${newsDTO.author.name}</div>
             <div class="float-right"><fmt:formatDate type="date"
                                                      value="${newsDTO.news.creationDate}"/></div>
             <br/>
@@ -35,8 +35,10 @@
             </div>
             <spring:url value="/news/edit/${newsDTO.news.id}" var="editMessage"/>
             <input class="float-right link" type = "checkbox" name = "selectedNews" value="${newsDTO.news.id}" />
-            <div class="float-right link" ><a href="${editMessage}">Edit</a></div>
-            <div class="float-right comments">Comments(${newsDTO.commentCount})</div>
+            <div class="float-right link" ><a href="${editMessage}">
+                <spring:message code="button.edit"/>
+            </a></div>
+            <div class="float-right comments"><spring:message code="label.comments"/>(${newsDTO.commentCount})</div>
             <div class="float-right tags">
                 <c:forEach var="tag" items="${newsDTO.tags}" varStatus="loop">
                     ${tag.name}
@@ -63,19 +65,23 @@
             </form:select>
             <c:set var="page" value="${searchCriteria.page}"/>
             <c:if test="${page > 2}">
-                <form:button name="page" value="1" type="submit">First</form:button>
+                <form:button name="page" value="1" type="submit">
+                    <spring:message code="label.first"/>
+                </form:button>
             </c:if>
             <c:if test="${numPages > 1}">
                 <c:if test="${page>1 && page<=numPages}">
-                    <form:button name="page" value="${page-1}" type="submit">Prev</form:button>
+                    <form:button name="page" value="${page-1}" type="submit">${page-1}</form:button>
                 </c:if>
                 <c:if test="${page>0 && page<=numPages}">
                     <form:button name="page" value="${page}" type="submit">${page}</form:button>
                 </c:if>
                 <c:if test="${numPages>page}">
-                    <form:button name="page" value="${page+1}" type="submit">Next</form:button>
+                    <form:button name="page" value="${page+1}" type="submit">${page+1}</form:button>
                     <c:if test="${numPages>page+1}">
-                        <form:button name="page" value="${numPages}" type="submit">Last</form:button>
+                        <form:button name="page" value="${numPages}" type="submit">
+                            <spring:message code="label.last"/>(${numPages})
+                        </form:button>
                     </c:if>
                 </c:if>
             </c:if>
@@ -88,12 +94,12 @@
         <c:set var="page" value="${page}"/>
         <c:if test="${page > 2}">
             <c:url value="/news/list/1" var="first"/>
-            <button><a href="${first}">First</a></button>
+            <button><a href="${first}"><spring:message code="label.first"/></a></button>
         </c:if>
         <c:if test="${numPages>1}">
             <c:if test="${page > 1 && page <= numPages}">
                 <c:url value="/news/list/${page-1}" var="prev"/>
-                <button><a href="${prev}">Prev</a></button>
+                <button><a href="${prev}">${page-1}</a></button>
             </c:if>
             <c:url value="/news/list/${page}" var="current"/>
             <c:if test="${page>0 && page <= numPages}">
@@ -101,10 +107,10 @@
             </c:if>
             <c:if test="${numPages>page}">
                 <c:url value="/news/list/${page+1}" var="next"/>
-                <button><a href="${next}">Next</a></button>
+                <button><a href="${next}">${page+1}</a></button>
                 <c:if test="${numPages>page+1}">
                     <c:url value="/news/list/${numPages}" var="last"/>
-                    <button><a href="${last}">Last(${numPages})</a></button>
+                    <button><a href="${last}"><spring:message code="label.last"/>(${numPages})</a></button>
                 </c:if>
             </c:if>
         </c:if>
