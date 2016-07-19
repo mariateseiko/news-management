@@ -1,14 +1,12 @@
 package by.epam.news.service.impl;
 
-import by.epam.news.dao.*;
-import by.epam.news.domain.*;
+import by.epam.news.dao.DaoException;
+import by.epam.news.dao.NewsDao;
+import by.epam.news.domain.News;
+import by.epam.news.domain.SearchCriteria;
 import by.epam.news.service.NewsService;
 import by.epam.news.service.ServiceException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {

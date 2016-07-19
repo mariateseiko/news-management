@@ -1,5 +1,6 @@
 package by.epam.news.domain;
 
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,10 @@ import java.sql.Timestamp;
  */
 public class Comment {
     private Long id;
+
+    @Size(max = 100)
     private String commentText;
+
     private Timestamp creationDate;
     private Long newsId;
 

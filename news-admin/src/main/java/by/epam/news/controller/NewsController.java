@@ -10,7 +10,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +98,9 @@ public class NewsController {
     public String viewAddNews(Model model) throws ServiceException {
         List<Author> authors = authorService.findNotExpiredAuthors();
         List<Tag> tags = tagService.findAll();
-        model.addAttribute("newsDTO", new NewsDTO());
+        if (!model.containsAttribute("newsDTO")) {
+            model.addAttribute("newsDTO", new NewsDTO());
+        }
         model.addAttribute("authors", authors);
         model.addAttribute("tags", tags);
         model.addAttribute("selectedNews", new ArrayList<Long>());
@@ -104,8 +108,13 @@ public class NewsController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String addNews(@ModelAttribute("newsDTO") NewsDTO newsDTO,
-                          BindingResult result, ModelMap model) throws ServiceException {
+    public String addNews(@Valid @ModelAttribute("newsDTO") NewsDTO newsDTO,
+                          BindingResult result, RedirectAttributes attr) throws ServiceException {
+        if (result.hasErrors()) {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.newsDTO", result);
+            attr.addFlashAttribute("newsDTO", newsDTO);
+            return "redirect:/news/add";
+        }
         Long newsId = newsServiceFacade.saveNews(newsDTO);
         return "redirect:/news/message/" + newsId;
     }

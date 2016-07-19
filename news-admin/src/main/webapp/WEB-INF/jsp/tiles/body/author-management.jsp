@@ -2,6 +2,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="info-list">
+    <c:if test="${not empty hasErrors}">
+        <div style="text-align: center"><span style="display: inline-block; color:red">
+            <spring:message code="author.failed.update"/>
+        </span></div>
+    </c:if>
     <c:forEach var="author" items="${authors}">
         <c:url var="authorUrl" value="/author"/>
         <form:form action="${authorUrl}" modelAttribute="author" method="post" style="margin-bottom: 0">
@@ -22,7 +27,9 @@
                         <spring:message code="label.expire"/>
                     </button>
                 </div>
-                <div class="edit-info-label div-link" id="cancel-info-button-${author.id}"><spring:message code="label.cancel"/></div>
+                <div class="edit-info-label div-link" id="cancel-info-button-${author.id}">
+                    <spring:message code="label.cancel"/>
+                </div>
             </div>
             <br/>
             <br/>
@@ -30,10 +37,13 @@
     </c:forEach>
     <form:form action="${authorUrl}" modelAttribute="author" method="post" style="margin-bottom: 0">
         <div class="info-label" style="margin-left:20%"><spring:message code="authors.add"/>: </div>
-        <input name="name" class="float-input"/>
-        <div class="edit-info-label div-link"><button type="submit" name="save" value="save" class="button-link">
-            <spring:message code="label.save"/>
-        </button></div>
+        <form:input path="name" class="float-input"/>
+        <div class="edit-info-label div-link">
+            <form:button type="submit" name="save" value="save" class="button-link">
+                <spring:message code="label.save"/>
+            </form:button>
+        </div>
+        <div style="text-align: center"><form:errors path="name" cssClass="error" style="display: inline-block"/></div>
     </form:form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>

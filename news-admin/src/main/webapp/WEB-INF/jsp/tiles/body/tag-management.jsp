@@ -2,6 +2,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="info-list">
+    <c:if test="${not empty hasErrors}">
+        <div style="text-align: center"><span style="display: inline-block; color:red">
+            <spring:message code="tag.failed.update"/>
+        </span></div>
+    </c:if>
     <c:forEach var="tag" items="${tags}">
         <c:url var="tagUrl" value="/tag"/>
         <form:form action="${tagUrl}" modelAttribute="tag" method="post" style="margin-bottom: 0">
@@ -38,6 +43,7 @@
                 <spring:message code="label.save"/>
             </button>
         </div>
+        <div style="text-align: center"><form:errors path="name" cssClass="error" style="display: inline-block"/></div>
     </form:form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>

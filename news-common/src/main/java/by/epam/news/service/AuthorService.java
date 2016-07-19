@@ -1,7 +1,6 @@
 package by.epam.news.service;
 
 import by.epam.news.domain.Author;
-import org.hibernate.service.Service;
 
 import java.util.List;
 

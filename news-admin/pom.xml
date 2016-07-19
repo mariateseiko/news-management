@@ -75,7 +75,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.ver}</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>

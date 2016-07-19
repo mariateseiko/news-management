@@ -1,7 +1,11 @@
 package by.epam.news.service.impl;
 
-import by.epam.news.dao.*;
-import by.epam.news.domain.*;
+import by.epam.news.dao.DaoException;
+import by.epam.news.dao.NewsDao;
+import by.epam.news.domain.Author;
+import by.epam.news.domain.News;
+import by.epam.news.domain.SearchCriteria;
+import by.epam.news.domain.Tag;
 import by.epam.news.service.ServiceException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyObject;

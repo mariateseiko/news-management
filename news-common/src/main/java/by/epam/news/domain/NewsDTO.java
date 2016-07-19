@@ -1,10 +1,14 @@
 package by.epam.news.domain;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
 public class NewsDTO implements Serializable {
+    @Valid
     private News news;
+    @NotNull(message = "{author.null}")
     private Author author;
     private List<Comment> comments;
     private List<Tag> tags;

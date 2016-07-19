@@ -1,5 +1,7 @@
 package by.epam.news.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  */
 public class SearchCriteria {
     private List<Tag> tags;
+    @NotEmpty
     private List<Author> authors;
     private Long page;
     private Long limit;

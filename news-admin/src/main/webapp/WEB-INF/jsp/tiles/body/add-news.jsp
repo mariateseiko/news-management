@@ -5,12 +5,21 @@
     <c:url var="newsUrl" value="/news/save"/>
     <form:form action="${newsUrl}" method="post" modelAttribute="newsDTO" class="add-form">
         <form:hidden path="news.id"/>
+        <div style="text-align: center">
+            <form:errors path="news.title" style="display: inline-block; color:red"/>
+        </div>
         <div class="info-label"><spring:message code="news.add.title"/>:</div>
         <form:input path="news.title" class="float-input add" />
         <br/>
+        <div style="text-align: center">
+            <form:errors path="news.shortText" style="display: inline-block; color:red"/>
+        </div>
         <div class="info-label"><spring:message code="news.add.brief"/>:</div>
         <form:textarea path="news.shortText" class="float-input add-area" rows="7"/>
         <br/>
+        <div style="text-align: center">
+            <form:errors path="news.fullText" style="display: inline-block; color:red"/>
+        </div>
         <div class="info-label"><spring:message code="news.add.content"/>:</div>
         <form:textarea path="news.fullText" class="float-input add-area" rows="20"/>
         <div class="filter">
