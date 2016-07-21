@@ -5,11 +5,14 @@ import by.epam.news.dao.DaoException;
 import by.epam.news.domain.Comment;
 import by.epam.news.service.CommentService;
 import by.epam.news.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class CommentServiceImpl implements CommentService {
     private CommentDao commentDao;
+    private static final Logger LOG = LogManager.getLogger(CommentServiceImpl.class);
 
     public void setCommentDao(CommentDao commentDao) {
         this.commentDao = commentDao;
@@ -20,6 +23,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             return commentDao.insert(comment);
         } catch (DaoException e) {
+            LOG.error("Failed add comment: ", e);
             throw new ServiceException(e);
         }
     }
@@ -29,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             commentDao.delete(commentId);
         } catch (DaoException e) {
+            LOG.error("Failed delete comment: ", e);
             throw new ServiceException(e);
         }
     }
@@ -38,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             return commentDao.selectById(commentId);
         } catch (DaoException e) {
+            LOG.error("Failed to find comment by id: ", e);
             throw new ServiceException(e);
         }
     }
@@ -47,6 +53,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             commentDao.deleteForNews(newsId);
         } catch (DaoException e) {
+            LOG.error("Failed to delete all comments from news: ", e);
             throw new ServiceException(e);
         }
     }
@@ -56,6 +63,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             return commentDao.selectForNews(newsId);
         } catch (DaoException e) {
+            LOG.error("Failed to find comments for news: ", e);
             throw new ServiceException(e);
         }
     }
@@ -65,6 +73,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             return commentDao.selectNewsCommentsCount(newsId);
         } catch (DaoException e) {
+            LOG.error("Failed to count news for comments: ", e);
             throw new ServiceException(e);
         }
     }

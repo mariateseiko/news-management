@@ -3,13 +3,12 @@ package by.epam.news.dao.impl;
 import by.epam.news.dao.DaoException;
 import by.epam.news.dao.TagDao;
 import by.epam.news.domain.Tag;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class TagDaoImpl implements TagDao {
 
     private static final String TAG_ID = "tag_id";
     private static final String TAG_NAME = "tag_name";
+    private static final Logger LOG = LogManager.getLogger(TagDaoImpl.class);
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -137,6 +137,8 @@ public class TagDaoImpl implements TagDao {
             if (resultSet.next()) {
                 generatedId = resultSet.getLong(1);
             }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            LOG.warn("Tag with name : " + tag.getName() + " already exists. Insert failed.");
         } catch (SQLException e) {
             throw new DaoException("Failed to insert tag: " + tag, e);
         } finally {

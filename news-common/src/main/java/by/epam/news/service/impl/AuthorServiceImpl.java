@@ -5,11 +5,14 @@ import by.epam.news.dao.DaoException;
 import by.epam.news.domain.Author;
 import by.epam.news.service.AuthorService;
 import by.epam.news.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class AuthorServiceImpl implements AuthorService {
     private AuthorDao authorDao;
+    private static final Logger LOG = LogManager.getLogger(AuthorServiceImpl.class);
 
     public void setAuthorDao(AuthorDao authorDao) {
         this.authorDao = authorDao;
@@ -20,6 +23,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             return authorDao.insert(author);
         } catch (DaoException e) {
+            LOG.error("Failed to add new author: ", e);
             throw new ServiceException(e);
         }
     }
@@ -29,6 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             authorDao.updateExpired(authorId);
         } catch (DaoException e) {
+            LOG.error("Failed to make author expired: ", e);
             throw new ServiceException(e);
         }
     }
@@ -38,6 +43,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             return authorDao.selectById(authorId);
         } catch (DaoException e) {
+            LOG.error("Failed to find author by id: ", e);
             throw new ServiceException(e);
         }
     }
@@ -51,6 +57,7 @@ public class AuthorServiceImpl implements AuthorService {
                 authors = null;
             }
         } catch (DaoException e) {
+            LOG.error("Failed to find all not expired authors", e);
             throw new ServiceException(e);
         }
         return authors;
@@ -61,6 +68,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
            authorDao.update(author);
         } catch (DaoException e) {
+            LOG.error("Failed to update author", e);
             throw new ServiceException(e);
         }
     }
@@ -70,6 +78,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             return authorDao.selectForNews(newsId);
         } catch (DaoException e) {
+            LOG.error("Failed to find news for author", e);
             throw new ServiceException(e);
         }
     }
@@ -79,6 +88,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             authorDao.unlinkAllAuthors(newsId);
         } catch (DaoException e) {
+            LOG.error("Failed to unlink all authors from news", e);
             throw new ServiceException(e);
         }
     }
@@ -88,6 +98,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             authorDao.linkAuthorNews(newsId, authorId);
         } catch (DaoException e) {
+            LOG.error("Failed to link news to author", e);
             throw new ServiceException(e);
         }
     }
