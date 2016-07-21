@@ -1,6 +1,7 @@
 package by.epam.news.dao;
 
 import by.epam.news.domain.Author;
+import by.epam.news.domain.User;
 
 import java.util.List;
 
@@ -46,4 +47,11 @@ public interface AuthorDao extends GenericDao<Long, Author> {
      * @throws DaoException if exception occurred on the current level
      */
     void linkAuthorNews(Long newsId, Long authorId) throws DaoException;
+
+    /**
+     * Updates a given entity
+     * @param author entity to update
+     * @throws DaoException if exception occurred on current level
+     */
+    void update(Author author) throws DaoException;
 }

@@ -45,4 +45,11 @@ public interface TagDao extends GenericDao<Long, Tag> {
      * @throws DaoException if exception occurred on the current level
      */
     void unlinkAllTags(Long newsId) throws DaoException;
+
+    /**
+     * Updates a given entity
+     * @param tag entity to update
+     * @throws DaoException if exception occurred on current level
+     */
+    Boolean update(Tag tag) throws DaoException;
 }
