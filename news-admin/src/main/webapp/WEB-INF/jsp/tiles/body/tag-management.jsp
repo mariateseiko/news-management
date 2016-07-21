@@ -8,6 +8,11 @@
             <spring:message code="tag.failed.update"/>
         </span></div>
     </c:if>
+    <c:if test="${not empty alreadyExists}">
+        <div style="text-align: center"><span style="display: inline-block; color:red">
+            <spring:message code="${alreadyExists}"/>
+        </span></div>
+    </c:if>
     <c:forEach var="tag" items="${tags}">
         <c:url var="tagUrl" value="/tag"/>
         <form:form action="${tagUrl}" modelAttribute="tag" method="post" style="margin-bottom: 0">
@@ -34,15 +39,13 @@
             <br/>
         </form:form>
     </c:forEach>
-    <form:form action="${tagUrl}" modelAttribute="author" method="post" style="margin-bottom: 0">
-        <div class="info-label" style="margin-left:20%">
-            <spring:message code="tags.add"/>:
-        </div>
+    <form:form action="${tagUrl}" modelAttribute="tag" method="post" style="margin-bottom: 0">
+        <div class="info-label" style="margin-left:20%"><spring:message code="tags.add"/>: </div>
         <form:input path="name" class="float-input" required="required" maxlength="30"/>
         <div class="edit-info-label div-link">
-            <button type="submit" name="save" value="save" class="button-link">
+            <form:button type="submit" name="save" value="save" class="button-link">
                 <spring:message code="label.save"/>
-            </button>
+            </form:button>
         </div>
         <div style="text-align: center"><form:errors path="name" cssClass="error" style="display: inline-block"/></div>
     </form:form>

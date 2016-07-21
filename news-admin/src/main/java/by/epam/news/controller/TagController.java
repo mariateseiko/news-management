@@ -36,7 +36,9 @@ public class TagController {
         if (result.hasErrors()) {
             attr.addFlashAttribute("hasErrors", true);
         } else {
-            tagService.updateTag(tag);
+            if (tagService.updateTag(tag) < 0) {
+                attr.addFlashAttribute("alreadyExists", "error.tag.already.exists");
+            }
         }
         return "redirect:/tag/manage";
     }
@@ -54,7 +56,9 @@ public class TagController {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.author", result);
             attr.addFlashAttribute("tag", tag);
         } else {
-            tagService.addTag(tag);
+            if (tagService.addTag(tag) < 0) {
+                attr.addFlashAttribute("alreadyExists", "error.tag.already.exists");
+            }
         }
         return "redirect:/tag/manage";
     }
