@@ -41,8 +41,8 @@ public class NewsDaoImpl implements NewsDao {
             "full_text, creation_date, modification_date, previd, nextid " +
             "FROM (SELECT news.news_id, news.title, news.short_text, news.full_text, " +
             "news.creation_date, news.modification_date, " +
-            "lead(news.news_id,1,0) over (order by count(comment_id) DESC, news.modification_date DESC) as previd, " +
-            "lag(news.news_id,1,0) over (order by count(comment_id) DESC, news.modification_date DESC) as nextid " +
+            "lead(news.news_id,1,0) over (order by count(comment_id) DESC, news.modification_date DESC) as nextid, " +
+            "lag(news.news_id,1,0) over (order by count(comment_id) DESC, news.modification_date DESC) as previd " +
             "FROM news LEFT JOIN comments ON news.news_id = comments.news_id " +
             "GROUP BY news.news_id, title, short_text, full_text, news.creation_date, modification_date) WHERE news_id = ?";
     private static final String SQL_UPDATE_NEWS = "UPDATE news SET title=?, short_text=?, full_text=?, " +
