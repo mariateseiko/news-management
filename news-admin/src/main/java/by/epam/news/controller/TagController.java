@@ -36,7 +36,7 @@ public class TagController {
         if (result.hasErrors()) {
             attr.addFlashAttribute("hasErrors", true);
         } else {
-            if (tagService.updateTag(tag) < 0) {
+            if (!tagService.updateTag(tag)) {
                 attr.addFlashAttribute("alreadyExists", "error.tag.already.exists");
             }
         }
