@@ -62,7 +62,7 @@ public class TagDaoImplTest  {
     @Test
     public void testInsert() throws DaoException {
         Tag tag = new Tag();
-        tag.setName("New tag");
+        tag.setName("tag");
         Long id = tagDao.insert(tag);
         Assert.assertTrue(id > 0);
         Tag insertedTag = tagDao.selectById(id);
