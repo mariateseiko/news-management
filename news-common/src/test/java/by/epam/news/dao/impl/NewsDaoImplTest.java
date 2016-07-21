@@ -56,8 +56,8 @@ public class NewsDaoImplTest {
         Long newsId = 2L;
         News news = newsDao.selectById(newsId);
         Assert.assertEquals(newsId, news.getId());
-        Assert.assertEquals(1L, (long)news.getPreviousId());
-        Assert.assertEquals(3L, (long)news.getNextId());
+        Assert.assertEquals(3L, (long)news.getPreviousId());
+        Assert.assertEquals(1L, (long)news.getNextId());
     }
 
     @Test

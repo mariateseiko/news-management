@@ -2,6 +2,7 @@ package by.epam.news.dao;
 
 import by.epam.news.domain.News;
 import by.epam.news.domain.SearchCriteria;
+import by.epam.news.domain.User;
 
 import java.util.List;
 
@@ -52,4 +53,11 @@ public interface NewsDao extends GenericDao<Long, News> {
      * @throws DaoException if exception occurred on the current level
      */
     List<News> selectBySearchCriteria(SearchCriteria searchCriteria) throws DaoException;
+
+    /**
+     * Updates a given entity
+     * @param news entity to update
+     * @throws DaoException if exception occurred on current level
+     */
+    void update(News news) throws DaoException;
 }
