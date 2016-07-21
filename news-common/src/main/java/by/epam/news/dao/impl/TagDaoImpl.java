@@ -55,12 +55,16 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public void update(Tag tag) throws DaoException {
+    public Boolean update(Tag tag) throws DaoException {
+        Boolean result = true;
         Connection connection = DataSourceUtils.getConnection(dataSource);
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_TAG)) {
             statement.setString(1, tag.getName());
             statement.setLong(2, tag.getId());
             statement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            result = false;
+            LOG.warn("Tag with name : " + tag.getName() + " already exists. Insert failed.");
         } catch (SQLException e) {
             throw new DaoException("Failed to update tag: " + tag, e);
         } finally {
@@ -68,6 +72,7 @@ public class TagDaoImpl implements TagDao {
                 DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
+        return result;
     }
 
     @Override

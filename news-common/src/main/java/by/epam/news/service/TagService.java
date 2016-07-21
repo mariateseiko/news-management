@@ -36,7 +36,7 @@ public interface TagService {
      * @param tag tag with an id and updated fields
      * @throws ServiceException if exception occurred on the service or any underlying level
      */
-    void updateTag(Tag tag) throws ServiceException;
+    Boolean updateTag(Tag tag) throws ServiceException;
 
     /**
      * Deletes a tag with a specified id

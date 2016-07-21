@@ -19,7 +19,7 @@ public interface UserDao {
      * Retrieves a list of roles for a given user
      * @param userId id of the user
      * @return list of roles names
-     * @throws DaoException if exception occured on current level
+     * @throws DaoException if exception occurred on current level
      */
     List<String> selectUserRoles(Long userId) throws DaoException;
 }
