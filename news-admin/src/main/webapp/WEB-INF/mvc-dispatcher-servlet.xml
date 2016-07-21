@@ -3,7 +3,7 @@
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <mvc:annotation-driven />
+
     <mvc:annotation-driven validator="validator"/>
 
     <context:component-scan base-package="by.epam.news.*" annotation-config="true"/>
@@ -29,7 +29,6 @@
             </bean>
         </mvc:interceptor>
     </mvc:interceptors>
-
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="messages" />
@@ -53,6 +52,15 @@
             <list>
                 <value>/WEB-INF/tiles.xml</value>
             </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="by.epam.news.service.exception.ServiceException">error</prop>
+                <prop key="java.lang.Exception">error</prop>
+            </props>
         </property>
     </bean>
 </beans>

@@ -209,9 +209,9 @@ ul {
     text-decoration: none;
 }
 
-.pagination a:visited {
+a:visited {
     text-decoration: none;
-    color: black;
+    color: #1f1f7a;
 }
 .pagination {
     position: absolute;

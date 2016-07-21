@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div class="info-list">
     <c:if test="${not empty hasErrors}">
         <div style="text-align: center"><span style="display: inline-block; color:red">
@@ -10,9 +11,9 @@
     <c:forEach var="tag" items="${tags}">
         <c:url var="tagUrl" value="/tag"/>
         <form:form action="${tagUrl}" modelAttribute="tag" method="post" style="margin-bottom: 0">
-            <input hidden name="id" value="${tag.id}"/>
+            <form:hidden path="id" value="${tag.id}"/>
             <div class="info-label" style="margin-left:20%"><spring:message code="label.tag"/>: </div>
-            <input class="float-input" id="info-input-${tag.id}" name="name" disabled value="${tag.name}"/>
+            <form:input class="float-input" id="info-input-${tag.id}" path="name" disabled="true" value="${tag.name}" required="required" maxlength="30"/>
             <div class="edit-info-label div-link" id="info-button-${tag.id}">
                 <spring:message code="label.edit"/>
             </div>
@@ -37,7 +38,7 @@
         <div class="info-label" style="margin-left:20%">
             <spring:message code="tags.add"/>:
         </div>
-        <input name="name" class="float-input"/>
+        <form:input path="name" class="float-input" required="required" maxlength="30"/>
         <div class="edit-info-label div-link">
             <button type="submit" name="save" value="save" class="button-link">
                 <spring:message code="label.save"/>

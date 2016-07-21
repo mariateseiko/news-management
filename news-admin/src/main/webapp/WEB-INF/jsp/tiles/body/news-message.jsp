@@ -5,13 +5,16 @@
 <div class="link">BACK</div>
 <div class="content">
     <div class="news">
-        <div class="float-left" style="font-weight: bold">${newsDTO.news.title}</div>
-        <div class="float-left author">by ${newsDTO.author.name}</div>
+        <div class="float-left" style="font-weight: bold"><c:out value="${newsDTO.news.title}"/></div>
+        <div class="float-left author">
+            <spring:message code="label.by"/>
+            <c:out value="${newsDTO.author.name}"/>
+        </div>
         <div class="float-right"><fmt:formatDate type="date"
                                                  value="${newsDTO.news.creationDate}"/></div>
         <br/>
         <div class="news-short" align="justify">
-            ${newsDTO.news.fullText}
+            <c:out value="${newsDTO.news.fullText}"/>
         </div>
     </div>
     <c:forEach var="comment" items="${newsDTO.comments}">
@@ -19,8 +22,12 @@
             <spring:url value="/comment/delete/${newsDTO.news.id}/${comment.id}" var="deleteUrl" />
             <div class="float-left"><fmt:formatDate type="date"
                                                     value="${comment.creationDate}"/></div><br/>
-            <div class=comment-text><form:form cssStyle="margin-bottom: 0" action="${deleteUrl}" method="post"><button class="comment-delete-button"
-                                            >&#10006</button>${comment.commentText}</div></form:form>
+            <div class=comment-text>
+                <form:form cssStyle="margin-bottom: 0" action="${deleteUrl}" method="post"><button class="comment-delete-button"
+                                            >&#10006</button>
+                <c:out value="${comment.commentText}"/>
+            </div>
+            </form:form>
         </div>
     </c:forEach>
     <c:url var="addUrl" value="/comment/add"/>

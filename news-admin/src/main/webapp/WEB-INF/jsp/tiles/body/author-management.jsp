@@ -10,9 +10,10 @@
     <c:forEach var="author" items="${authors}">
         <c:url var="authorUrl" value="/author"/>
         <form:form action="${authorUrl}" modelAttribute="author" method="post" style="margin-bottom: 0">
-            <input hidden name="id" value="${author.id}"/>
+            <form:hidden path="id" value="${author.id}"/>
             <div class="info-label" style="margin-left:20%"><spring:message code="authors.author"/>: </div>
-            <input class="float-input" id="info-input-${author.id}" name="name" disabled value="${author.name}"/>
+            <form:input class="float-input" id="info-input-${author.id}" required="required" maxlength="30"
+                        path="name" disabled="true" value="${author.name}"/>
             <div class="edit-info-label div-link" id="info-button-${author.id}">
                 <spring:message code="label.edit"/>
             </div>
@@ -37,7 +38,7 @@
     </c:forEach>
     <form:form action="${authorUrl}" modelAttribute="author" method="post" style="margin-bottom: 0">
         <div class="info-label" style="margin-left:20%"><spring:message code="authors.add"/>: </div>
-        <form:input path="name" class="float-input"/>
+        <form:input path="name" class="float-input" required="required" maxlength="30"/>
         <div class="edit-info-label div-link">
             <form:button type="submit" name="save" value="save" class="button-link">
                 <spring:message code="label.save"/>

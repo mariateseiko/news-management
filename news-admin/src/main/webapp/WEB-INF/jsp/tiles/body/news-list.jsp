@@ -24,14 +24,14 @@
         <div class="news">
             <spring:url value="/news/message/${newsDTO.news.id}" var="viewMessage"/>
             <div class="float-left" style="font-weight: bold">
-                <a href="${viewMessage}">${newsDTO.news.title}</a>
+                <a href="${viewMessage}"><c:out value="${newsDTO.news.title}"/></a>
             </div>
             <div class="float-left author"><spring:message code="label.by"/> ${newsDTO.author.name}</div>
             <div class="float-right"><fmt:formatDate type="date"
                                                      value="${newsDTO.news.creationDate}"/></div>
             <br/>
             <div class="news-short">
-                    ${newsDTO.news.shortText}
+                    <c:out value="${newsDTO.news.shortText}"/>
             </div>
             <spring:url value="/news/edit/${newsDTO.news.id}" var="editMessage"/>
             <input class="float-right link" type = "checkbox" name = "selectedNews" value="${newsDTO.news.id}" />
@@ -41,7 +41,7 @@
             <div class="float-right comments"><spring:message code="label.comments"/>(${newsDTO.commentCount})</div>
             <div class="float-right tags">
                 <c:forEach var="tag" items="${newsDTO.tags}" varStatus="loop">
-                    ${tag.name}
+                    <c:out value="${tag.name}"/>
                     <c:if test="${!loop.last}">,</c:if>
                 </c:forEach>
             </div>

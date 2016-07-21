@@ -9,16 +9,16 @@
             <form:errors path="news.title" style="display: inline-block; color:red"/>
         </div>
         <div class="info-label"><spring:message code="news.add.title"/>:</div>
-        <form:input path="news.title" class="float-input add" />
+        <form:input path="news.title" class="float-input add" required="required" maxlength="200"/>
         <br/>
         <div style="text-align: center">
             <form:errors path="news.shortText" style="display: inline-block; color:red"/>
         </div>
         <div class="info-label"><spring:message code="news.add.brief"/>:</div>
-        <form:textarea path="news.shortText" class="float-input add-area" rows="7"/>
+        <form:textarea path="news.shortText" class="float-input add-area" rows="7" required="required" maxlength="500"/>
         <br/>
         <div style="text-align: center">
-            <form:errors path="news.fullText" style="display: inline-block; color:red"/>
+            <form:errors path="news.fullText" style="display: inline-block; color:red" required="required" maxlength="2000"/>
         </div>
         <div class="info-label"><spring:message code="news.add.content"/>:</div>
         <form:textarea path="news.fullText" class="float-input add-area" rows="20"/>
