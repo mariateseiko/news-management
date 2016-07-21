@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TagServiceImpl implements TagService {
     private TagDao tagDao;
-    private static final Logger LOG = LogManager.getLogger(CommentServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(TagServiceImpl.class);
 
     public void setTagDao(TagDao tagDao) {
         this.tagDao = tagDao;

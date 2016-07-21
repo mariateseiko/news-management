@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
     private NewsDao newsDao;
-    private static final Logger LOG = LogManager.getLogger(CommentServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(NewsServiceImpl.class);
 
     public void setNewsDao(NewsDao newsDao) {
         this.newsDao = newsDao;

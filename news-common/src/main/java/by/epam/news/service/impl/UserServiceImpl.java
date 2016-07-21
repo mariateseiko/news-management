@@ -11,13 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserServiceImpl implements UserService {
-    private static final Logger LOG = LogManager.getLogger(CommentServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserDao userDao;
 
     @Override
-
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user;
         try {
