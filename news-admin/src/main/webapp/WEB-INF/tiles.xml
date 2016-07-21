@@ -3,7 +3,6 @@
         "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-
     <definition name="defaultTemplate" template="/WEB-INF/jsp/templates/main-template.jsp">
         <put-attribute name="title" value="page.title.news.portal"/>
         <put-attribute name="header" value="/WEB-INF/jsp/tiles/header.jsp" />
@@ -30,5 +29,14 @@
     <definition name="addNews" extends="defaultTemplate">
         <put-attribute name="title" value="page.title.news.portal"/>
         <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/add-news.jsp"/>
+    </definition>
+    <definition name="login" extends="defaultTemplate">
+        <put-attribute name="title" value="page.title.news.portal"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/login.jsp"/>
+        <put-attribute name="menu" value="" />
+    </definition>
+    <definition name="error" extends="defaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/jsp/tiles/body/error.jsp"/>
+        <put-attribute name="menu" value="" />
     </definition>
 </tiles-definitions>

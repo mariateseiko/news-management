@@ -1,5 +1,8 @@
 package by.epam.news.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -8,9 +11,19 @@ import java.util.Date;
  */
 public class News {
     private Long id;
+
+    @NotEmpty(message = "{field.not.empty}")
+    @Size(max = 200, message = "{field.size.200}")
     private String title;
+
+    @NotEmpty(message = "{field.not.empty}")
+    @Size(max = 500, message = "{field.size.500}")
     private String shortText;
+
+    @NotEmpty(message = "{field.not.empty}")
+    @Size(max = 2000, message = "{field.size.2000}")
     private String fullText;
+
     private Date creationDate;
     private Date modificationDate;
     private Long nextId;

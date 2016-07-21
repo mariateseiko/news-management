@@ -6,7 +6,7 @@
 .lang-panel {
     float: right;
     position: relative;
-    top: 35px;
+    top: 20px;
 }
 
 .header {
@@ -191,3 +191,63 @@ ul {
     width: auto;
 }
 
+.prev {
+    float: left;
+    position: absolute;
+    bottom: 50px;
+}
+
+.next {
+    right: 30px;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #1f1f7a;
+}
+.pagination {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    width: auto;
+}
+
+.logout {
+    margin-left: 5px;
+}
+
+.lang {
+    margin-right: 5px;
+}
+
+.error {
+    text-align:center;
+    color: red;
+}
+
+.errorCode {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.errorMessage {
+    font-size: 30px;
+}
+
+.button-link {
+    background: none;
+    border: none;
+    color: #1f1f7a;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    height: 20px;
+}

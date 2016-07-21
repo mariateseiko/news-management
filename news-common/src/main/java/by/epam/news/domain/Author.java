@@ -1,5 +1,8 @@
 package by.epam.news.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 /**
@@ -8,6 +11,9 @@ import java.sql.Timestamp;
  */
 public class Author {
     private Long id;
+
+    @NotEmpty(message = "{field.not.empty}")
+    @Size(max = 30, message = "{field.max.length.30}")
     private String name;
     private Timestamp expired;
 
@@ -54,13 +60,13 @@ public class Author {
 
         Author author = (Author) o;
 
-        return id.equals(author.id);
+        if (id != null ? !id.equals(author.id) : author.id != null) return false;
+        return !(expired != null ? !expired.equals(author.expired) : author.expired != null);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 37;
         result = 31 * result + (expired != null ? expired.hashCode() : 0);
         return result;
     }

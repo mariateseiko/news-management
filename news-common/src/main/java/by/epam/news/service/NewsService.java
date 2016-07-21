@@ -1,9 +1,7 @@
 package by.epam.news.service;
 
 import by.epam.news.domain.News;
-import by.epam.news.domain.NewsDTO;
 import by.epam.news.domain.SearchCriteria;
-import org.hibernate.service.Service;
 
 import java.util.List;
 

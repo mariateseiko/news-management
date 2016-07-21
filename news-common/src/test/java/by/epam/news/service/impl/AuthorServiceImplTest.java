@@ -11,14 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.doThrow;
 
 public class AuthorServiceImplTest {
     @Mock

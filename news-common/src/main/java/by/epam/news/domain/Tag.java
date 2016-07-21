@@ -1,10 +1,17 @@
 package by.epam.news.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
+
 /**
  * Represents a tag entity with its unique id and name.
  */
 public class Tag {
     private Long id;
+
+    @NotEmpty(message = "{field.not.empty}")
+    @Size(max = 30, message = "{field.max.length.30}")
     private String name;
 
     public Tag() { }
