@@ -25,7 +25,7 @@
                 </div>
                 <div class="edit-info-label div-link">
                     <button type="submit" name="expire" value="expire" class="button-link">
-                        <spring:message code="label.expire"/>
+                        <spring:message code="label.delete"/>
                     </button>
                 </div>
                 <div class="edit-info-label div-link" id="cancel-info-button-${tag.id}"><spring:message code="label.cancel"/></div>
