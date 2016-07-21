@@ -4,11 +4,15 @@ import by.epam.news.dao.DaoException;
 import by.epam.news.dao.UserDao;
 import by.epam.news.domain.User;
 import by.epam.news.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserServiceImpl implements UserService {
+    private static final Logger LOG = LogManager.getLogger(CommentServiceImpl.class);
+
     @Autowired
     private UserDao userDao;
 
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService {
                 throw new UsernameNotFoundException("Failed to find user with name: " + login);
             }
         } catch (DaoException e) {
+            LOG.error("Failed to load user by username " + login + ": ", e);
             throw new UsernameNotFoundException("Failed to find user with name: " + login, e);
         }
         return user;
