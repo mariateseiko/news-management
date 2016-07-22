@@ -8,7 +8,6 @@ import by.epam.news.servlet.command.Command;
 import by.epam.news.servlet.command.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewNewsListCommand implements Command {
@@ -56,11 +55,10 @@ public class ViewNewsListCommand implements Command {
             request.setAttribute("allTags", tags);
             request.setAttribute("numPages", totalPageNumber);
             request.setAttribute("page", page);
-            request.setAttribute("selectedNews", new ArrayList<Long>());
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        return "/newsList";
+        return "/newsList.tiles";
     }
 
     private int definePageNumber(HttpServletRequest request) {
