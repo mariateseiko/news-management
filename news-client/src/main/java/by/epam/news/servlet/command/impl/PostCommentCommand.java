@@ -1,26 +1,29 @@
 package by.epam.news.servlet.command.impl;
 
-import by.epam.news.service.NewsService;
-import by.epam.news.service.NewsServiceFacade;
+import by.epam.news.domain.Comment;
+import by.epam.news.service.CommentService;
+import by.epam.news.service.ServiceException;
 import by.epam.news.servlet.command.Command;
 import by.epam.news.servlet.command.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class PostCommentCommand implements Command {
-    private NewsServiceFacade newsServiceFacade;
-    private NewsService newsService;
+    private CommentService commentService;
 
-    public void setNewsServiceFacade(NewsServiceFacade newsServiceFacade) {
-        this.newsServiceFacade = newsServiceFacade;
-    }
-
-    public void setNewsService(NewsService newsService) {
-        this.newsService = newsService;
+    public void setCommentService(CommentService commentService) {
+        this.commentService = commentService;
     }
 
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
-        return null;
+        Long newsId = Long.parseLong(request.getParameter("newsId"));
+        String commentText = request.getParameter("text");
+        try {
+            commentService.addComment(new Comment(newsId, commentText));
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
+        return "/controller?command=view_news&id=" + newsId;
     }
 }

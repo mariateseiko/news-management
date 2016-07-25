@@ -55,6 +55,7 @@ public class ViewNewsListCommand implements Command {
             request.setAttribute("allTags", tags);
             request.setAttribute("numPages", totalPageNumber);
             request.setAttribute("page", page);
+            request.setAttribute("filtered", false);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

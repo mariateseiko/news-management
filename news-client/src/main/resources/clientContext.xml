@@ -19,11 +19,10 @@
 
     <bean id="viewNewsCommand" class="by.epam.news.servlet.command.impl.ViewNewsMessageCommand" >
         <property name="newsServiceFacade" ref="newsServiceFacade"/>
-        <property name="newsService" ref="newsService"/>
     </bean>
 
     <bean id="postCommentCommand" class="by.epam.news.servlet.command.impl.PostCommentCommand" >
-        <property name="newsServiceFacade" ref="newsServiceFacade"/>
+        <property name="commentService" ref="commentService"/>
     </bean>
 
     <bean id="commandStorage" class="by.epam.news.servlet.command.CommandStorage">

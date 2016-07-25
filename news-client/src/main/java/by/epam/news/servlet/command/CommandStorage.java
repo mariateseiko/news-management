@@ -13,7 +13,6 @@ public class CommandStorage {
         this.commands = commands;
     }
 
-
     /**
      * Returns a command for corresponding command parameter in a http-request
      * @param request http request from the servlet
@@ -21,7 +20,7 @@ public class CommandStorage {
      * @throws CommandException if command parameter is invalid
      */
     public Command getCommand(HttpServletRequest request) throws CommandException {
-        Command current = null;
+        Command current = commands.get(CommandName.VIEW_LIST);
         String action = request.getParameter("command");
         if (action == null || action.isEmpty()) {
             return current;
