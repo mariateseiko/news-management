@@ -31,8 +31,12 @@ public class ClientController extends HttpServlet {
         try {
             Command command = storage.getCommand(req);
             page = command.execute(req);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(req, resp);
+            if (page != null) {
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+                dispatcher.forward(req, resp);
+            } else {
+                resp.sendError(404);
+            }
         } catch(CommandException e) {
             resp.sendError(500);
         }
@@ -44,7 +48,11 @@ public class ClientController extends HttpServlet {
         try {
             Command command = storage.getCommand(req);
             page = command.execute(req);
-            resp.sendRedirect(req.getContextPath() + page );
+            if (page != null) {
+                resp.sendRedirect(req.getContextPath() + page);
+            } else {
+                resp.sendError(404);
+            }
         } catch(CommandException e) {
             resp.sendError(500);
         }

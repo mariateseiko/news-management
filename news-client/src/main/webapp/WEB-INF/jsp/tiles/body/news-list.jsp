@@ -30,6 +30,9 @@
     <c:forEach var="newsDTO" items="${newsDTOList}">
         <div class="news">
             <c:url value="/controller?command=view_news&id=${newsDTO.news.id}" var="viewMessage"/>
+            <c:if test="${not filtered}">
+                <c:url value="/controller?command=view_news&id=${newsDTO.news.id}&page=${page}" var="viewMessage"/>
+            </c:if>
             <div class="float-left" style="font-weight: bold">
                 <a href="${viewMessage}"><c:out value="${newsDTO.news.title}"/></a>
             </div>
@@ -53,7 +56,6 @@
             </div>
         </div>
     </c:forEach>
-    </form>
 </div>
 <c:if test="${filtered}">
 <div class="pagination">
@@ -105,33 +107,26 @@
 <c:if test="${not filtered}">
     <div class="pagination">
         <c:set var="page" value="${page}"/>
-        <c:url value="/controller?command=view_list&page=1" var="index"/>
-
+        <c:url value="/controller?command=view_list&page=" var="viewList"/>
         <c:if test="${page > 2}">
-            <button><a href="${index}"><fmt:message key="label.first"/></a></button>
+            <button><a href="${viewList}1"><fmt:message key="label.first"/></a></button>
         </c:if>
         <c:if test="${numPages>1}">
             <c:if test="${page > 1 && page <= numPages}">
-                <c:url value="/controller?command=view_list&page=${page-1}" var="prev"/>
-                <button><a href="${prev}">${page-1}</a></button>
+                <button><a href="${viewList}${page-1}">${page-1}</a></button>
             </c:if>
-            <c:url value="/news/list/${page}" var="current"/>
             <c:if test="${page>0 && page <= numPages}">
-                <button><a href="${listLink}${page}"><b>${page}</b></a></button>
+                <button><a href="${viewList}${page}"><b>${page}</b></a></button>
             </c:if>
             <c:if test="${numPages>page}">
-                <c:url value="/news/list/${page+1}" var="next"/>
-                <button><a href="${listLink}${page+1}">${page+1}</a></button>
+                <button><a href="${viewList}${page+1}">${page+1}</a></button>
                 <c:if test="${numPages>page+1}">
-                    <c:url value="/news/list/${numPages}" var="last"/>
-                    <button><a href="${listLink}${numPages}"><fmt:message key="label.last"/>(${numPages})</a></button>
+                    <button><a href="${viewList}${numPages}"><fmt:message key="label.last"/>(${numPages})</a></button>
                 </c:if>
             </c:if>
         </c:if>
     </div>
 </c:if>
-${index}
-<button><a href="${index}">ergherbhrngr</a></button>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script src=<c:url value="/assets/js/multiple-select.js"/>></script>
 <script>

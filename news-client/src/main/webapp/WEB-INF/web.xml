@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <listener>
-        <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
-    </listener>
+    <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
+</listener>
     <servlet>
         <servlet-name>Tiles Dispatch Servlet</servlet-name>
         <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
@@ -14,4 +14,12 @@
         <servlet-name>Tiles Dispatch Servlet</servlet-name>
         <url-pattern>*.tiles</url-pattern>
     </servlet-mapping>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.tiles</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.tiles</location>
+    </error-page>
 </web-app>

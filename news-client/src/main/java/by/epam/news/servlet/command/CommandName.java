@@ -6,4 +6,7 @@ public enum CommandName {
     CommandName(String method) {
         this.method = method;
     }
+    public String getMethod() {
+        return method;
+    }
 }

@@ -5,6 +5,7 @@ import by.epam.news.service.CommentService;
 import by.epam.news.service.ServiceException;
 import by.epam.news.servlet.command.Command;
 import by.epam.news.servlet.command.CommandException;
+import by.epam.news.servlet.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +21,9 @@ public class PostCommentCommand implements Command {
         Long newsId = Long.parseLong(request.getParameter("newsId"));
         String commentText = request.getParameter("text");
         try {
-            commentService.addComment(new Comment(newsId, commentText));
+            if (Validator.validateComment(commentText)) {
+                commentService.addComment(new Comment(newsId, commentText));
+            }
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
