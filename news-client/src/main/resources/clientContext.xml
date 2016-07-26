@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <import resource="classpath:applicationContext.xml"/>
+    <bean id="viewListCommand" class="by.epam.news.servlet.command.impl.ViewNewsListCommand" >
+        <property name="newsServiceFacade" ref="newsServiceFacade"/>
+        <property name="authorService" ref="authorService"/>
+        <property name="newsService" ref="newsService"/>
+        <property name="tagService" ref="tagService"/>
+    </bean>
+
+    <bean id="viewFilteredListCommand" class="by.epam.news.servlet.command.impl.ViewFilteredNewsListCommand" >
+        <property name="newsServiceFacade" ref="newsServiceFacade"/>
+        <property name="authorService" ref="authorService"/>
+        <property name="newsService" ref="newsService"/>
+        <property name="tagService" ref="tagService"/>
+    </bean>
+
+    <bean id="viewNewsCommand" class="by.epam.news.servlet.command.impl.ViewNewsMessageCommand" >
+        <property name="newsServiceFacade" ref="newsServiceFacade"/>
+    </bean>
+
+    <bean id="postCommentCommand" class="by.epam.news.servlet.command.impl.PostCommentCommand" >
+        <property name="commentService" ref="commentService"/>
+    </bean>
+
+    <bean id="commandStorage" class="by.epam.news.servlet.command.CommandStorage">
+        <property name="commands" ref="commandsMap"/>
+    </bean>
+    <util:map id="commandsMap" map-class="java.util.HashMap" key-type="by.epam.news.servlet.command.CommandName" value-type="by.epam.news.servlet.command.Command">
+        <entry key="VIEW_LIST"
+               value-ref="viewListCommand"/>
+        <entry key="VIEW_FILTERED_LIST"
+               value-ref="viewFilteredListCommand"/>
+        <entry key="VIEW_NEWS"
+               value-ref="viewNewsCommand"/>
+        <entry key="POST_COMMENT"
+               value-ref="postCommentCommand"/>
+    </util:map>
+</beans>
