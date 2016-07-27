@@ -1,6 +1,7 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <fmt:setBundle basename="messages"/>
+<fmt:setLocale value="${locale}"/>
 <div class="centered-form" style="width: 500px">
     <div class="errorCode">${pageContext.errorData.statusCode}</div>
     <div class="errorMessage">

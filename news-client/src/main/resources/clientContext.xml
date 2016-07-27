@@ -3,27 +3,29 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
     <import resource="classpath:applicationContext.xml"/>
-    <bean id="viewListCommand" class="by.epam.news.servlet.command.impl.ViewNewsListCommand" >
+    <bean id="viewListCommand" class="by.epam.news.servlet.command.impl.ViewNewsListCommand">
         <property name="newsServiceFacade" ref="newsServiceFacade"/>
         <property name="authorService" ref="authorService"/>
         <property name="newsService" ref="newsService"/>
         <property name="tagService" ref="tagService"/>
     </bean>
 
-    <bean id="viewFilteredListCommand" class="by.epam.news.servlet.command.impl.ViewFilteredNewsListCommand" >
+    <bean id="viewFilteredListCommand" class="by.epam.news.servlet.command.impl.ViewFilteredNewsListCommand">
         <property name="newsServiceFacade" ref="newsServiceFacade"/>
         <property name="authorService" ref="authorService"/>
         <property name="newsService" ref="newsService"/>
         <property name="tagService" ref="tagService"/>
     </bean>
 
-    <bean id="viewNewsCommand" class="by.epam.news.servlet.command.impl.ViewNewsMessageCommand" >
+    <bean id="viewNewsCommand" class="by.epam.news.servlet.command.impl.ViewNewsMessageCommand">
         <property name="newsServiceFacade" ref="newsServiceFacade"/>
     </bean>
 
-    <bean id="postCommentCommand" class="by.epam.news.servlet.command.impl.PostCommentCommand" >
+    <bean id="postCommentCommand" class="by.epam.news.servlet.command.impl.PostCommentCommand">
         <property name="commentService" ref="commentService"/>
     </bean>
+
+    <bean id="changeLocaleCommand" class="by.epam.news.servlet.command.impl.ChangeLocaleCommand"/>
 
     <bean id="commandStorage" class="by.epam.news.servlet.command.CommandStorage">
         <property name="commands" ref="commandsMap"/>
@@ -37,5 +39,7 @@
                value-ref="viewNewsCommand"/>
         <entry key="POST_COMMENT"
                value-ref="postCommentCommand"/>
+        <entry key="CHANGE_LOCALE"
+               value-ref="changeLocaleCommand"/>
     </util:map>
 </beans>

@@ -6,11 +6,10 @@ import by.epam.news.domain.Tag;
 import by.epam.news.service.*;
 import by.epam.news.servlet.command.Command;
 import by.epam.news.servlet.command.CommandException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
 import java.util.List;
 
 public class ViewNewsListCommand implements Command {

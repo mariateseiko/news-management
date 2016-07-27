@@ -2,6 +2,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="messages"/>
 <c:url value="/controller" var="controller"/>
+<fmt:setLocale value="${locale}"/>
+
 <form action="${controller}" method="get">
     <div class="filter">
         <select name="authors" title="authors" id="authors">
