@@ -5,8 +5,9 @@ import by.epam.news.service.NewsServiceFacade;
 import by.epam.news.service.ServiceException;
 import by.epam.news.servlet.command.Command;
 import by.epam.news.servlet.command.CommandException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import javax.servlet.http.HttpServletRequest;
 

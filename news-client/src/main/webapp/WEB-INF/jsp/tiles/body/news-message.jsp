@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="messages"/>
+<fmt:setLocale value="${locale}"/>
+
 <c:set value="${param.page}" var="page"/>
 <c:if test="${empty param.page}">
     <c:set value="1" var="page"/>
