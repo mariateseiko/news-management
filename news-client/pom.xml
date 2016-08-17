@@ -108,6 +108,8 @@
                     <url>http://localhost:8081/manager/text</url>
                     <server>tomcat</server>
                     <path>/news-client</path>
+                    <username>deployer</username>
+                    <password>deployer</password>
                 </configuration>
             </plugin>
 
