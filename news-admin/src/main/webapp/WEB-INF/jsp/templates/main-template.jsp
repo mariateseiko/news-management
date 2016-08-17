@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/main.css'/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/multiple-select.css'/>"/>
 </head>
-<body>
+<body style="background-color: red">
     <div class="page-tile">
         <div class="header-tile">
             <tiles:insertAttribute name="header"/>
